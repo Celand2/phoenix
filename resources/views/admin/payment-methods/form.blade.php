@@ -1,0 +1,5 @@
+<input class="rounded-lg border border-ash-600 bg-ash-900 px-3 py-2" name="name" placeholder="Nom" value="{{ old('name', $paymentMethod->name ?? '') }}" required>
+<textarea class="rounded-lg border border-ash-600 bg-ash-900 px-3 py-2" name="details" placeholder="Details" required>{{ old('details', $paymentMethod->details ?? '') }}</textarea>
+<input class="rounded-lg border border-ash-600 bg-ash-900 px-3 py-2" name="logo" placeholder="Logo URL/path" value="{{ old('logo', $paymentMethod->logo ?? '') }}">
+<select class="rounded-lg border border-ash-600 bg-ash-900 px-3 py-2" name="exchange_rate_id"><option value="">Sans taux</option>@foreach($exchangeRates as $rate)<option value="{{ $rate->id }}" @selected(old('exchange_rate_id', $paymentMethod->exchange_rate_id ?? '') == $rate->id)>{{ $rate->currency_from }}/{{ $rate->currency_to }} {{ $rate->rate }}</option>@endforeach</select>
+<label class="flex items-center gap-2 text-sm"><input type="checkbox" name="is_active" value="1" @checked(old('is_active', $paymentMethod->is_active ?? true))> Active</label>
