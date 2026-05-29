@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Withdrawal;
 use App\Models\PaymentMethod;
+use App\Support\Money;
 use Illuminate\Support\Facades\DB;
 
 class WithdrawalService
@@ -23,29 +24,51 @@ class WithdrawalService
         string $accountNumber,
         string $accountName
     ): bool {
-        if ($amount > $user->balance_gains) return false;
+        $snapshot = Money::snapshotFor($paymentMethod);
+        $isFirstCurrencyChoice = ! $user->preferred_currency;
+        $amountUsd = $isFirstCurrencyChoice ? $amount : Money::toUsd($amount, $user->preferred_rate);
 
-        DB::transaction(function () use ($user, $paymentMethod, $amount, $accountNumber, $accountName) {
-            $fee = $amount * 0.10;
-            $amountReceived = $amount - $fee;
+        if ($amountUsd > $user->balance_gains) return false;
+
+        DB::transaction(function () use ($user, $paymentMethod, $snapshot, $isFirstCurrencyChoice, $amount, $amountUsd, $accountNumber, $accountName) {
+            if ($isFirstCurrencyChoice) {
+                $user->update([
+                    'preferred_payment_method_id' => $paymentMethod->id,
+                    'preferred_currency' => $snapshot['currency'],
+                    'preferred_rate' => $snapshot['rate'],
+                ]);
+            }
+
+            $currency = $isFirstCurrencyChoice ? $snapshot['currency'] : $user->preferred_currency;
+            $rate = $isFirstCurrencyChoice ? $snapshot['rate'] : (float) $user->preferred_rate;
+            $fee = $amountUsd * 0.10;
+            $amountReceived = $amountUsd - $fee;
+            $amountRequestedLocal = Money::toLocal($amountUsd, $rate);
+            $feeLocal = Money::toLocal($fee, $rate);
+            $amountReceivedLocal = Money::toLocal($amountReceived, $rate);
 
             Withdrawal::create([
                 'user_id' => $user->id,
                 'payment_method_id' => $paymentMethod->id,
-                'amount_requested' => $amount,
+                'amount_requested' => $amountUsd,
                 'fee' => $fee,
                 'amount_received' => $amountReceived,
+                'amount_requested_local' => $amountRequestedLocal,
+                'fee_local' => $feeLocal,
+                'amount_received_local' => $amountReceivedLocal,
+                'currency_local' => $currency,
+                'exchange_rate' => $rate,
                 'status' => 'pending',
                 'account_number' => $accountNumber,
                 'account_name' => $accountName,
             ]);
 
-            $user->decrement('balance_gains', $amount);
+            $user->decrement('balance_gains', $amountUsd);
 
             $this->notificationService->send(
                 $user,
                 'Demande de Retrait',
-                'Votre demande de retrait de ' . $amount . ' est en cours de traitement.',
+                'Votre demande de retrait de ' . Money::formatSnapshot($amountUsd, $amountRequestedLocal, $currency) . ' est en cours de traitement.',
                 'withdrawal_pending'
             );
         });
@@ -68,7 +91,7 @@ class WithdrawalService
             $this->notificationService->send(
                 $withdrawal->user,
                 'Retrait Approuve',
-                'Votre retrait de ' . $withdrawal->amount_received . ' a ete approuve.',
+                'Votre retrait de ' . Money::formatSnapshot($withdrawal->amount_received, $withdrawal->amount_received_local, $withdrawal->currency_local) . ' a ete approuve.',
                 'withdrawal_approved'
             );
         });
@@ -88,7 +111,7 @@ class WithdrawalService
             $this->notificationService->send(
                 $withdrawal->user,
                 'Retrait Rejete',
-                'Votre retrait de ' . $withdrawal->amount_requested . ' a ete rejete et rembourse.',
+                'Votre retrait de ' . Money::formatSnapshot($withdrawal->amount_requested, $withdrawal->amount_requested_local, $withdrawal->currency_local) . ' a ete rejete et rembourse.',
                 'withdrawal_rejected'
             );
         });

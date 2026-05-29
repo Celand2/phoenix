@@ -22,6 +22,9 @@ class User extends Authenticatable
         'referred_by',
         'status',
         'role',
+        'preferred_payment_method_id',
+        'preferred_currency',
+        'preferred_rate',
         'balance_invested',
         'balance_gains',
     ];
@@ -36,6 +39,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'preferred_rate' => 'decimal:6',
         'balance_invested' => 'decimal:2',
         'balance_gains' => 'decimal:2',
     ];
@@ -67,6 +71,11 @@ class User extends Authenticatable
     public function withdrawals()
     {
         return $this->hasMany(Withdrawal::class);
+    }
+
+    public function preferredPaymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class, 'preferred_payment_method_id');
     }
 
     // Claims

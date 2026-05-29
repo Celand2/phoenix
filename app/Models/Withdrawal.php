@@ -15,6 +15,11 @@ class Withdrawal extends Model
         'amount_requested',
         'fee',
         'amount_received',
+        'amount_requested_local',
+        'fee_local',
+        'amount_received_local',
+        'currency_local',
+        'exchange_rate',
         'status',
         'account_number',
         'account_name',
@@ -26,6 +31,10 @@ class Withdrawal extends Model
         'amount_requested' => 'decimal:2',
         'fee' => 'decimal:2',
         'amount_received' => 'decimal:2',
+        'amount_requested_local' => 'decimal:2',
+        'fee_local' => 'decimal:2',
+        'amount_received_local' => 'decimal:2',
+        'exchange_rate' => 'decimal:6',
         'approved_at' => 'datetime',
     ];
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\UserTrade;
 use App\Services\TradeService;
+use App\Support\Money;
 use Illuminate\Support\Facades\Auth;
 
 class UserTradeController extends Controller
@@ -26,7 +27,7 @@ class UserTradeController extends Controller
 
         return response()->json([
             'success' => true,
-            'balance_gains' => Auth::user()->fresh()->balance_gains,
+            'balance_gains' => Money::formatForUser(Auth::user()->fresh()->balance_gains, Auth::user()->fresh()),
         ]);
     }
 }

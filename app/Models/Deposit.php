@@ -13,6 +13,10 @@ class Deposit extends Model
         'user_id',
         'user_trade_id',
         'payment_method_id',
+        'amount_usd',
+        'amount_local',
+        'currency_local',
+        'exchange_rate',
         'proof',
         'status',
         'approved_at',
@@ -20,6 +24,9 @@ class Deposit extends Model
     ];
 
     protected $casts = [
+        'amount_usd' => 'decimal:2',
+        'amount_local' => 'decimal:2',
+        'exchange_rate' => 'decimal:6',
         'approved_at' => 'datetime',
     ];
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Deposit;
 use App\Models\UserTrade;
+use App\Support\Money;
 use Illuminate\Support\Facades\DB;
 
 class TradeService
@@ -52,40 +53,39 @@ class TradeService
         });
     }
 
-    public function claimDailyGain(UserTrade $userTrade): bool
+   public function claimDailyGain(UserTrade $userTrade): bool
     {
-        if (!$userTrade->isClaimable()) return false;
+        return DB::transaction(function () use ($userTrade) {
+            $locked = UserTrade::whereKey($userTrade->getKey())->lockForUpdate()->first();
 
-        DB::transaction(function () use ($userTrade) {
+            if (! $locked || ! $locked->isClaimable()) {
+                return false;
+            }
+
             $claimedAt = now();
-            $nextClaimAt = now()->addHours(24);
-
-            $userTrade->claims()->create([
-                'user_id' => $userTrade->user_id,
-                'amount' => $userTrade->daily_gain,
+            $locked->claims()->create([
+                'user_id' => $locked->user_id,
+                'amount' => $locked->daily_gain,
                 'claimed_at' => $claimedAt,
-                'next_claim_at' => $nextClaimAt,
+                'next_claim_at' => $claimedAt->copy()->addHours(24),
             ]);
+            $locked->update(['last_claimed_at' => $claimedAt]);
+            $locked->user->increment('balance_gains', $locked->daily_gain);
 
-            $userTrade->update(['last_claimed_at' => $claimedAt]);
-
-            $userTrade->user->increment('balance_gains', $userTrade->daily_gain);
-
-            if (now()->greaterThanOrEqualTo($userTrade->expires_at)) {
-                $this->expireTrade($userTrade);
+            if (now()->greaterThanOrEqualTo($locked->expires_at)) {
+                $this->expireTrade($locked);
             }
 
             $this->notificationService->send(
-                $userTrade->user,
+                $locked->user,
                 'Gain Reclame',
-                'Vous avez reclame ' . $userTrade->daily_gain . ' avec succes !',
+                'Vous avez reclame ' . Money::formatForUserWithUsd($locked->daily_gain, $locked->user) . ' avec succes !',
                 'claim_success'
             );
+
+            return true;
         });
-
-        return true;
     }
-
     public function expireTrade(UserTrade $userTrade): void
     {
         if ($userTrade->status !== 'active') {

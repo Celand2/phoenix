@@ -37,7 +37,7 @@ class TradeController extends Controller
 
         return view('client.deposits.create', [
             'userTrade' => $userTrade->load('trade.category'),
-            'paymentMethods' => PaymentMethod::active()->get(),
+            'paymentMethods' => PaymentMethod::with('exchangeRate')->active()->get(),
         ]);
     }
 }
