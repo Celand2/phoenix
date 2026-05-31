@@ -41,7 +41,10 @@ class WithdrawalService
 
             $currency = $isFirstCurrencyChoice ? $snapshot['currency'] : $user->preferred_currency;
             $rate = $isFirstCurrencyChoice ? $snapshot['rate'] : (float) $user->preferred_rate;
-            $fee = $amountUsd * 0.10;
+            
+            $feePercent = config('phoenix.withdrawal_fee_percent', 10);
+            $fee = $amountUsd * ($feePercent / 100);
+            
             $amountReceived = $amountUsd - $fee;
             $amountRequestedLocal = Money::toLocal($amountUsd, $rate);
             $feeLocal = Money::toLocal($fee, $rate);

@@ -49,7 +49,12 @@ class UserTrade extends Model
     public function isClaimable(): bool
     {
         if ($this->status !== 'active') return false;
+        
+        // Un trade expire strictement à la date prévue
+        if (now()->greaterThanOrEqualTo($this->expires_at)) return false;
+
         if (is_null($this->last_claimed_at)) return true;
+        
         return now()->greaterThanOrEqualTo($this->last_claimed_at->addHours(24));
     }
 

@@ -1,14 +1,56 @@
 @extends('layouts.admin')
 @section('title', 'Trades')
 @section('content')
-<div class="mb-4"><a class="rounded-lg bg-crimson-400 px-4 py-2 font-semibold text-white hover:bg-crimson-600" href="{{ route('admin.trades.create') }}">Nouveau trade</a></div>
-<div class="overflow-x-auto rounded-lg border border-ash-600 bg-ash-800">
-<table class="w-full min-w-[600px] text-left text-sm"><thead class="bg-ash-900 text-ash-200"><tr><th class="p-3">Nom</th><th>Categorie</th><th>Montant</th><th>Actif</th><th class="p-3 text-right">Action</th></tr></thead><tbody>
-@forelse ($trades as $trade)
-<tr class="border-t border-ash-600"><td class="p-3">{{ $trade->name }}</td><td>{{ $trade->category?->name }}</td><td class="text-gold-400">{{ \App\Support\Money::formatUsd($trade->amount) }}</td><td>{{ $trade->is_active ? 'Oui' : 'Non' }}</td><td class="p-3 text-right"><a class="text-gold-400" href="{{ route('admin.trades.edit', $trade) }}">Edit</a></td></tr>
-@empty
-<tr><td colspan="5" class="p-4 text-center text-ash-200">Aucun trade.</td></tr>
-@endforelse
-</tbody></table></div>
-{{ $trades->links() }}
+<div class="mb-6 flex items-center justify-between gap-4">
+    <h1 class="text-2xl font-black text-ash-900">Gestion des Trades</h1>
+    <a href="{{ route('admin.trades.create') }}" class="rounded-xl bg-crimson-400 px-6 py-3 font-bold text-white transition-all hover:bg-crimson-600 hover:shadow-lg">
+        + Nouveau trade
+    </a>
+</div>
+
+<div class="overflow-hidden rounded-2xl border border-gold-100 bg-white shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+            <thead class="bg-gold-50 text-xs font-bold uppercase tracking-wider text-ash-500">
+                <tr>
+                    <th class="p-4">Nom du produit</th>
+                    <th class="p-4">Catégorie</th>
+                    <th class="p-4">Montant</th>
+                    <th class="p-4">Statut</th>
+                    <th class="p-4 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gold-100 text-ash-900">
+                @forelse ($trades as $trade)
+                <tr class="transition-colors hover:bg-gold-50/50">
+                    <td class="p-4 font-bold">{{ $trade->name }}</td>
+                    <td class="p-4 text-ash-500">
+                        <span class="inline-flex rounded-md bg-ash-100 px-2 py-1 text-[10px] font-black uppercase tracking-widest text-ash-600">
+                            {{ $trade->category?->name ?? 'Aucune' }}
+                        </span>
+                    </td>
+                    <td class="p-4 font-black text-crimson-600">{{ \App\Support\Money::formatUsd($trade->amount) }}</td>
+                    <td class="p-4">
+                        <span class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $trade->is_active ? 'bg-gold-100 text-gold-800' : 'bg-ash-100 text-ash-400' }}">
+                            {{ $trade->is_active ? 'Actif' : 'Inactif' }}
+                        </span>
+                    </td>
+                    <td class="p-4 text-right">
+                        <a class="font-bold text-gold-600 hover:text-gold-800 hover:underline" href="{{ route('admin.trades.edit', $trade) }}">Modifier</a>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" class="p-12 text-center text-ash-400 italic">
+                        Aucun trade disponible.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="mt-8">
+    {{ $trades->links() }}
+</div>
 @endsection

@@ -166,6 +166,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Close panels when clicking a link inside them
+    Object.values(panels).forEach((panel) => {
+        panel.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', () => {
+                const side = panel.dataset.clientPanel;
+                if (!desktopQuery.matches) {
+                    updatePanel(side, false);
+                }
+            });
+        });
+    });
+
     overlay.addEventListener('click', () => {
         updatePanel('left', false, false);
         updatePanel('right', false, false);
