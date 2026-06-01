@@ -3,7 +3,9 @@
 @section('content')
 <div class="grid gap-6">
 @forelse($userTrades as $userTrade)
-@php($nextClaimAt = $userTrade->last_claimed_at?->copy()->addHours(24))
+@php
+    $nextClaimAt = $userTrade->last_claimed_at?->copy()?->addHours(24);
+@endphp
 <article class="rounded-2xl border border-gold-100 bg-white p-6 shadow-sm">
     <div class="flex flex-wrap items-center justify-between gap-4">
         <div>

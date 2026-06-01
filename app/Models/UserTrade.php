@@ -55,7 +55,7 @@ class UserTrade extends Model
 
         if (is_null($this->last_claimed_at)) return true;
         
-        return now()->greaterThanOrEqualTo($this->last_claimed_at->addHours(24));
+        return now()->greaterThanOrEqualTo($this->last_claimed_at->copy()->addHours(24));
     }
 
     // Relations

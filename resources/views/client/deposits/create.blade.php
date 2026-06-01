@@ -17,7 +17,9 @@
             <label class="text-sm font-bold uppercase tracking-wider text-ash-500">Méthode de paiement</label>
             <select class="rounded-xl border border-ash-200 bg-white px-4 py-3 text-ash-900 focus:border-crimson-400 focus:ring-crimson-400" name="payment_method_id" required data-money-method>
                 @foreach($paymentMethods as $method)
-                    @php($snapshot = \App\Support\Money::snapshotFor($method))
+                    @php
+                        $snapshot = \App\Support\Money::snapshotFor($method);
+                    @endphp
                     <option value="{{ $method->id }}" data-rate="{{ $snapshot['rate'] }}" data-currency="{{ $snapshot['currency'] }}" data-details="{{ $method->details }}">
                         {{ $method->name }} ({{ $snapshot['currency'] }})
                     </option>
