@@ -15,7 +15,7 @@
         <input class="rounded-xl border border-ash-200 bg-white px-4 py-2.5 text-sm text-ash-900 focus:border-crimson-400 focus:ring-crimson-400" name="email" type="email" value="{{ old('email') }}" placeholder="jean@exemple.com" required>
     </div>
 
-    <div class="grid grid-cols-2 gap-3">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div class="grid gap-1">
             <label class="text-[10px] font-bold uppercase tracking-widest text-ash-400 px-1">Téléphone</label>
             <input class="rounded-xl border border-ash-200 bg-white px-4 py-2.5 text-sm text-ash-900 focus:border-crimson-400 focus:ring-crimson-400" name="phone" value="{{ old('phone') }}" placeholder="+33..." required>
@@ -31,7 +31,7 @@
         <input class="rounded-xl border border-gold-100 bg-white px-4 py-2.5 text-sm text-ash-900 focus:border-gold-400 focus:ring-gold-400" name="referrer_code" value="{{ old('referrer_code') }}" placeholder="Ex: PHOENIX123">
     </div>
 
-    <div class="grid grid-cols-2 gap-3 border-t border-gold-50 pt-3">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 border-t border-gold-50 pt-3">
         <div class="grid gap-1">
             <label class="text-[10px] font-bold uppercase tracking-widest text-ash-400 px-1">Mot de passe</label>
             <input class="rounded-xl border border-ash-200 bg-white px-4 py-2.5 text-sm text-ash-900 focus:border-crimson-400 focus:ring-crimson-400" name="password" type="password" placeholder="••••••••" required>
