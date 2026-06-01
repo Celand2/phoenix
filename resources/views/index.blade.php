@@ -73,6 +73,9 @@
                                     <a href="{{ route('register') }}" class="rounded-2xl bg-crimson-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-crimson-200 hover:bg-crimson-700 transition-all active:scale-95">
                                         Ouvrir un compte
                                     </a>
+                                    <a href="{{ route('login') }}" class="rounded-2xl bg-white px-8 py-4 text-lg font-bold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 transition-all">
+                                        Se connecter
+                                    </a>
                                 @else
                                     <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('client.dashboard') }}" class="rounded-2xl bg-slate-900 px-8 py-4 text-lg font-bold text-white shadow-xl hover:bg-slate-800 transition-all active:scale-95">
                                         Accéder au Dashboard
