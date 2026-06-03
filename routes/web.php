@@ -33,6 +33,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/users/{user}', [Admin\UserController::class, 'show'])->name('users.show');
         Route::patch('/users/{user}/balance', [Admin\UserController::class, 'updateBalance'])->name('users.balance');
         Route::patch('/users/{user}/status', [Admin\UserController::class, 'updateStatus'])->name('users.status');
+        Route::patch('/users/{user}/password', [Admin\UserController::class, 'updatePassword'])->name('users.password');
         Route::get('/referrals', [Admin\ReferralController::class, 'index'])->name('referrals.index');
         Route::resource('/messages', Admin\MessageController::class)->only(['index', 'store', 'show', 'destroy']);
         Route::resource('/exchange-rates', Admin\ExchangeRateController::class)->only(['index', 'store', 'update', 'destroy']);

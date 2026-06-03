@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin') - Phoenix Traders</title>
+    <title>@yield('title', 'Admin') - phenix Traders</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="{{ asset('js/admin.js') }}" defer></script>
 </head>
@@ -19,7 +19,7 @@
             data-open="false"
         >
             <div class="flex items-center justify-between gap-3">
-                <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold text-crimson-600">Phoenix Admin</a>
+                <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold text-crimson-600">phenix Admin</a>
                 <button
                     type="button"
                     class="grid size-10 place-items-center rounded-lg border border-gold-100 text-ash-600 hover:bg-gold-50"

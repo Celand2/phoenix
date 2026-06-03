@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const toggles = document.querySelectorAll('[data-admin-toggle]');
     const desktopQuery = window.matchMedia('(min-width: 1024px)');
-    const storageKey = 'phoenix-admin-panels';
+    const storageKey = 'phenix-admin-panels';
     const state = {
         left: false,
         right: false,

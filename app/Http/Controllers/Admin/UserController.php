@@ -38,4 +38,16 @@ class UserController extends Controller
 
         return back()->with('status', 'Statut mis a jour.');
     }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user->password = \Illuminate\Support\Facades\Hash::make($data['password']);
+        $user->save();
+
+        return back()->with('status', 'Mot de passe mis a jour.');
+    }
 }

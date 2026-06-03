@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const toggles = document.querySelectorAll('[data-client-toggle]');
     const desktopQuery = window.matchMedia('(min-width: 1024px)');
-    const storageKey = 'phoenix-client-panels';
+    const storageKey = 'phenix-client-panels';
     const state = {
         left: false,
         right: false,

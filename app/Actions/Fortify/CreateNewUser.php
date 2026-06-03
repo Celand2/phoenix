@@ -44,7 +44,7 @@ class CreateNewUser implements CreatesNewUsers
             $referrer = User::where('referral_code', $input['referrer_code'])->first();
         }
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'phone' => $input['phone'],
@@ -53,6 +53,15 @@ class CreateNewUser implements CreatesNewUsers
             'referred_by' => $referrer?->id,
             'password' => Hash::make($input['password']),
         ]);
+
+        app(\App\Services\NotificationService::class)->send(
+            $user,
+            'Bienvenue chez phenix Traders',
+            'Votre compte a été créé avec succès. Bienvenue dans notre communauté de trading !',
+            'welcome'
+        );
+
+        return $user;
     }
 
     private function generateReferralCode(): string
@@ -64,3 +73,4 @@ class CreateNewUser implements CreatesNewUsers
         return $code;
     }
 }
+

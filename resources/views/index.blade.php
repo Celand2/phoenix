@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ config('app.name', 'Phoenix Traders') }} - L'excellence en Trading</title>
+        <title>{{ config('app.name', 'phenix Traders') }} - L'excellence en Trading</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-slate-50 text-slate-900 font-sans selection:bg-crimson-100 selection:text-crimson-700">
@@ -17,32 +17,35 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                             </svg>
                         </div>
-                        <span class="text-xl font-black text-slate-900 tracking-tight italic uppercase">Phoenix<span class="text-crimson-600">Traders</span></span>
+                        <span class="text-xl font-black text-slate-900 tracking-tight italic uppercase">phenix<span class="text-crimson-600">Traders</span></span>
                     </div>
 
-                    <nav class="hidden md:flex items-center gap-8">
-                        <a href="#about" class="text-sm font-semibold text-slate-600 hover:text-crimson-600 transition-colors">À propos</a>
-                        <a href="#features" class="text-sm font-semibold text-slate-600 hover:text-crimson-600 transition-colors">Fonctionnalités</a>
+                    <div class="flex items-center gap-4">
+                        <nav class="hidden md:flex items-center gap-8 mr-4">
+                            <a href="#about" class="text-sm font-semibold text-slate-600 hover:text-crimson-600 transition-colors">À propos</a>
+                            <a href="#features" class="text-sm font-semibold text-slate-600 hover:text-crimson-600 transition-colors">Fonctionnalités</a>
+                        </nav>
+
                         @auth
                             <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('client.dashboard') }}" class="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2 text-sm font-bold text-white hover:bg-slate-800 transition-all">
-                                Tableau de bord
+                                Dashboard
                             </a>
                         @else
-                            <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-2 sm:gap-4">
                                 <a href="{{ route('login') }}" class="text-sm font-semibold text-slate-600 hover:text-crimson-600">Connexion</a>
-                                <a href="{{ route('register') }}" class="inline-flex items-center justify-center rounded-full bg-crimson-600 px-5 py-2 text-sm font-bold text-white shadow-lg shadow-crimson-200 hover:bg-crimson-700 transition-all hover:-translate-y-0.5">
+                                <a href="{{ route('register') }}" class="inline-flex items-center justify-center rounded-full bg-crimson-600 px-4 py-2 sm:px-5 sm:py-2 text-sm font-bold text-white shadow-lg shadow-crimson-200 hover:bg-crimson-700 transition-all hover:-translate-y-0.5">
                                     Commencer
                                 </a>
                             </div>
                         @endauth
-                    </nav>
 
-                    <div class="md:hidden">
-                        <button type="button" class="text-slate-600">
-                            <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                            </svg>
-                        </button>
+                        <div class="md:hidden ml-2">
+                            <button type="button" class="text-slate-600">
+                                <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,7 +69,7 @@
                                 Multipliez vos actifs avec <span class="text-crimson-600">intelligence</span>.
                             </h1>
                             <p class="mt-8 text-xl text-slate-600 leading-relaxed max-w-2xl">
-                                Phoenix Traders offre une expérience de trading simplifiée, sécurisée et hautement rentable. Profitez de nos algorithmes avancés et de notre système de parrainage unique.
+                                phenix Traders offre une expérience de trading simplifiée, sécurisée et hautement rentable. Profitez de nos algorithmes avancés et de notre système de parrainage unique.
                             </p>
                             <div class="mt-10 flex flex-wrap gap-4">
                                 @guest
@@ -127,14 +130,14 @@
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="grid lg:grid-cols-2 gap-16 items-center">
                         <div>
-                            <h2 class="text-sm font-black uppercase tracking-[0.2em] text-crimson-600 mb-4">À propos de Phoenix</h2>
+                            <h2 class="text-sm font-black uppercase tracking-[0.2em] text-crimson-600 mb-4">À propos de phenix</h2>
                             <p class="text-4xl font-black text-slate-900 tracking-tight mb-6">Une vision claire pour votre liberté financière.</p>
                             <div class="space-y-6 text-lg text-slate-600 leading-relaxed">
                                 <p>
-                                    Phoenix Traders est né de la volonté de démocratiser l'accès aux marchés financiers performants. Notre plateforme combine expertise humaine et intelligence algorithmique pour générer des profits stables.
+                                    phenix Traders est né de la volonté de démocratiser l'accès aux marchés financiers performants. Notre plateforme combine expertise humaine et intelligence algorithmique pour générer des profits stables.
                                 </p>
                                 <p>
-                                    Nous croyons en la transparence et en la puissance de la communauté. C'est pourquoi nous avons mis en place un système de parrainage équitable qui récompense ceux qui aident à faire grandir l'écosystème Phoenix.
+                                    Nous croyons en la transparence et en la puissance de la communauté. C'est pourquoi nous avons mis en place un système de parrainage équitable qui récompense ceux qui aident à faire grandir l'écosystème phenix.
                                 </p>
                             </div>
                             <div class="mt-10 grid grid-cols-2 gap-8 border-t border-slate-100 pt-10">
@@ -215,7 +218,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                                 </svg>
                             </div>
-                            <span class="text-xl font-black text-white tracking-tight italic uppercase">Phoenix<span class="text-crimson-600">Traders</span></span>
+                            <span class="text-xl font-black text-white tracking-tight italic uppercase">phenix<span class="text-crimson-600">Traders</span></span>
                         </div>
                         <p class="text-lg max-w-sm">Redéfinir le futur de l'investissement social et du trading automatisé pour tous.</p>
                     </div>
@@ -224,8 +227,12 @@
                         <ul class="space-y-4">
                             <li><a href="#about" class="hover:text-white transition-colors">À propos</a></li>
                             <li><a href="#features" class="hover:text-white transition-colors">Fonctionnalités</a></li>
-                            <li><a href="{{ route('login') }}" class="hover:text-white transition-colors">Connexion</a></li>
-                            <li><a href="{{ route('register') }}" class="hover:text-white transition-colors">Inscription</a></li>
+                            @auth
+                                <li><a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('client.dashboard') }}" class="hover:text-white transition-colors">Dashboard</a></li>
+                            @else
+                                <li><a href="{{ route('login') }}" class="hover:text-white transition-colors">Connexion</a></li>
+                                <li><a href="{{ route('register') }}" class="hover:text-white transition-colors">Inscription</a></li>
+                            @endauth
                         </ul>
                     </div>
                     <div>
@@ -238,7 +245,7 @@
                     </div>
                 </div>
                 <div class="pt-8 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p>&copy; {{ date('Y') }} Phoenix Traders. Tous droits réservés.</p>
+                    <p>&copy; {{ date('Y') }} phenix Traders. Tous droits réservés.</p>
                     <div class="flex gap-6">
                         <a href="#" class="hover:text-white transition-colors">Twitter</a>
                         <a href="#" class="hover:text-white transition-colors">Telegram</a>

@@ -6,7 +6,7 @@
             <td align="center">
                 <div style="max-width:600px;background-color:#ffffff;border-radius:16px;border:1px solid #FCEAA0;overflow:hidden;box-shadow:0 4px 6px rgba(0,0,0,0.05);">
                     <div style="background-color:#A31E1E;padding:24px;text-align:center;">
-                        <h2 style="color:#ffffff;margin:0;font-size:24px;font-weight:bold;letter-spacing:1px;">PHOENIX TRADERS</h2>
+                        <h2 style="color:#ffffff;margin:0;font-size:24px;font-weight:bold;letter-spacing:1px;">phenix TRADERS</h2>
                     </div>
                     <div style="padding:40px 32px;">
                         <h1 style="color:#1C1614;margin-top:0;font-size:22px;font-weight:800;line-height:1.2;">{{ $notification->title }}</h1>
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div style="background-color:#F5F0EE;padding:20px;text-align:center;font-size:12px;color:#8C7E78;">
-                        <p style="margin:0;">&copy; 2026 Phoenix Traders Platform. Tous droits réservés.</p>
+                        <p style="margin:0;">&copy; 2026 phenix Traders Platform. Tous droits réservés.</p>
                     </div>
                 </div>
             </td>

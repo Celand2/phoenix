@@ -42,7 +42,7 @@ class WithdrawalService
             $currency = $isFirstCurrencyChoice ? $snapshot['currency'] : $user->preferred_currency;
             $rate = $isFirstCurrencyChoice ? $snapshot['rate'] : (float) $user->preferred_rate;
             
-            $feePercent = config('phoenix.withdrawal_fee_percent', 10);
+            $feePercent = config('phenix.withdrawal_fee_percent', 10);
             $fee = $amountUsd * ($feePercent / 100);
             
             $amountReceived = $amountUsd - $fee;

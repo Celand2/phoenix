@@ -40,7 +40,7 @@ class ReferralEarningTest extends TestCase
 
         $paymentMethod = \App\Models\PaymentMethod::create([
             'name' => 'Crypto',
-            'wallet_address' => '0x123',
+            'details' => '0x123',
             'is_active' => true,
         ]);
 

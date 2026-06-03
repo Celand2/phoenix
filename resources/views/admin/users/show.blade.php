@@ -40,6 +40,31 @@
     </form>
 
     <div class="flex flex-col gap-8">
+        <!-- Modification du Mot de Passe -->
+        <form method="POST" action="{{ route('admin.users.password', $user) }}" class="flex flex-col gap-6 rounded-2xl border border-gold-100 bg-white p-8 shadow-sm">
+            @csrf 
+            @method('PATCH')
+            <h2 class="text-lg font-black text-ash-900 flex items-center gap-2">
+                <span class="size-2 rounded-full bg-ash-900"></span>
+                Sécurité du compte
+            </h2>
+            
+            <div class="grid gap-4">
+                <div class="grid gap-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-ash-400">Nouveau mot de passe</label>
+                    <input class="w-full rounded-xl border border-ash-200 bg-white px-4 py-3 text-ash-900 focus:border-crimson-400 focus:ring-crimson-400" name="password" type="password" required>
+                </div>
+                <div class="grid gap-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-ash-400">Confirmer le mot de passe</label>
+                    <input class="w-full rounded-xl border border-ash-200 bg-white px-4 py-3 text-ash-900 focus:border-crimson-400 focus:ring-crimson-400" name="password_confirmation" type="password" required>
+                </div>
+            </div>
+
+            <button class="w-full rounded-xl bg-ash-900 px-6 py-4 font-black text-white transition-all hover:bg-black active:scale-95">
+                Changer le mot de passe
+            </button>
+        </form>
+
         <!-- Statut du Compte -->
         <form method="POST" action="{{ route('admin.users.status', $user) }}" class="flex flex-col gap-6 rounded-2xl border border-gold-100 bg-white p-8 shadow-sm">
             @csrf 

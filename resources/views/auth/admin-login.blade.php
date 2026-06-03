@@ -7,7 +7,7 @@
     @csrf
     <div class="grid gap-2">
         <label class="text-xs font-bold uppercase tracking-widest text-ash-400">Identifiant Administrateur</label>
-        <input class="rounded-xl border border-ash-200 bg-white px-4 py-3 text-ash-900 focus:border-crimson-400 focus:ring-crimson-400" name="email" type="email" placeholder="admin@phoenix.com" value="{{ old('email') }}" required autofocus>
+        <input class="rounded-xl border border-ash-200 bg-white px-4 py-3 text-ash-900 focus:border-crimson-400 focus:ring-crimson-400" name="email" type="email" placeholder="admin@phenix.com" value="{{ old('email') }}" required autofocus>
     </div>
 
     <div class="grid gap-2">

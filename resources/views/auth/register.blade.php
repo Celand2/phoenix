@@ -28,7 +28,7 @@
 
     <div class="grid gap-1">
         <label class="text-[10px] font-bold uppercase tracking-widest text-ash-400 px-1 text-gold-600">Code de parrainage (facultatif)</label>
-        <input class="rounded-xl border border-gold-100 bg-white px-4 py-2.5 text-sm text-ash-900 focus:border-gold-400 focus:ring-gold-400" name="referrer_code" value="{{ old('referrer_code') }}" placeholder="Ex: PHOENIX123">
+        <input class="rounded-xl border border-gold-100 bg-white px-4 py-2.5 text-sm text-ash-900 focus:border-gold-400 focus:ring-gold-400" name="referrer_code" value="{{ old('referrer_code') }}" placeholder="Ex: phenix123">
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 border-t border-gold-50 pt-3">

@@ -37,7 +37,7 @@
             @csrf
             <div class="grid gap-2">
                 <label class="text-sm font-bold uppercase tracking-wider text-ash-500">Entrez votre code</label>
-                <input class="rounded-xl border border-ash-200 bg-white px-4 py-3 text-ash-900 focus:border-ember-400 focus:ring-ember-400 font-bold tracking-widest placeholder:tracking-normal" name="code" placeholder="Ex: PHOENIX2024">
+                <input class="rounded-xl border border-ash-200 bg-white px-4 py-3 text-ash-900 focus:border-ember-400 focus:ring-ember-400 font-bold tracking-widest placeholder:tracking-normal" name="code" placeholder="Ex: phenix2024">
             </div>
             
             <button class="rounded-xl bg-ember-400 px-6 py-4 font-black text-white transition-all hover:bg-ember-600 hover:shadow-lg active:scale-95">

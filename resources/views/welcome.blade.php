@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Phoenix Traders - Investissez dans l'avenir</title>
+        <title>phenix Traders - Investissez dans l'avenir</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-gold-50 text-ash-900 font-sans">
         <!-- Header / Nav -->
         <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gold-100">
             <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
-                <a href="/" class="text-2xl font-black text-crimson-600 tracking-tighter">PHOENIX TRADERS</a>
+                <a href="/" class="text-2xl font-black text-crimson-600 tracking-tighter">phenix TRADERS</a>
                 <nav class="hidden md:flex items-center gap-8">
                     @if (Route::has('login'))
                         @auth
@@ -118,7 +118,7 @@
         <footer class="bg-ash-900 py-12 text-ash-400">
             <div class="mx-auto max-w-7xl px-4 flex flex-col md:flex-row justify-between items-center gap-8">
                 <div>
-                    <span class="text-xl font-black text-white tracking-tighter">PHOENIX TRADERS</span>
+                    <span class="text-xl font-black text-white tracking-tighter">phenix TRADERS</span>
                     <p class="mt-2 text-sm">L'avenir du trading social et automatisé.</p>
                 </div>
                 <div class="flex gap-8 text-sm font-medium">
@@ -127,7 +127,7 @@
                     <a href="#" class="hover:text-gold-400 transition-colors">Contact</a>
                 </div>
                 <div class="text-xs">
-                    &copy; 2026 Phoenix Traders. Tous droits réservés.
+                    &copy; 2026 phenix Traders. Tous droits réservés.
                 </div>
             </div>
         </footer>
