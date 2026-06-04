@@ -47,11 +47,11 @@
         <h2 class="mb-6 text-2xl font-black leading-tight text-ash-900 group-hover:text-crimson-600 transition-colors sm:text-3xl">{{ $trade->name }}</h2>
 
         <div class="mb-8 space-y-3">
-            <div class="flex items-center justify-between rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-gold-100 sm:px-5 sm:py-4">
+            <div class="flex items-center justify-between rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-gold-100 sm:px-3 sm:py-2">
                 <span class="text-[10px] font-bold uppercase tracking-widest text-ash-400">Gain Quotidien</span>
                 <span class="text-lg font-black text-gold-600 sm:text-xl">{{ \App\Support\Money::formatForUser($trade->dailyGain(), auth()->user()) }}</span>
             </div>
-            <div class="flex items-center justify-between rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-gold-100 sm:px-5 sm:py-4">
+            <div class="flex items-center justify-between rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-gold-100 sm:px-3 sm:py-2">
                 <span class="text-[10px] font-bold uppercase tracking-widest text-ash-400">Rendement Total</span>
                 <span class="text-lg font-black text-crimson-600 sm:text-xl">+{{ number_format((float) ($category->daily_profit_percent * $category->duration_days), 2) }}%</span>
             </div>
@@ -59,8 +59,8 @@
 
         <form class="mt-auto" method="POST" action="{{ route('client.trades.buy', $trade) }}">
             @csrf
-            <button class="flex w-full items-center justify-center rounded-2xl bg-crimson-600 py-4 text-lg font-black text-white shadow-lg transition-all hover:bg-crimson-700 active:scale-[0.98] sm:py-5 sm:text-xl">
-                Acheter
+            <button class="flex w-full items-center justify-center rounded-2xl bg-crimson-600 py-4 text-lg font-black text-gold-500 shadow-lg transition-all hover:bg-crimson-700 active:scale-[0.98] sm:py-5 sm:text-xl">
+                
             </button>
         </form>
     </div>
