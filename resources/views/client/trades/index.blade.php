@@ -45,7 +45,7 @@
 
         <form class="mt-auto" method="POST" action="{{ route('client.trades.buy', $trade) }}">
             @csrf
-            <button class="flex w-full items-center justify-center rounded-2xl bg-crimson-600 py-4 text-lg font-black text-white shadow-lg transition-all hover:bg-crimson-700 active:scale-[0.98] sm:py-5 sm:text-xl">
+            <button class="flex w-full items-center justify-center rounded-2xl bg-crimson-600 py-4 text-lg font-black text-gold-500 shadow-lg transition-all hover:bg-crimson-700 active:scale-[0.98] sm:py-5 sm:text-xl">
                 Acheter
             </button>
         </form>
