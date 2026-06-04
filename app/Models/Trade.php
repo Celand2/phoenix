@@ -42,6 +42,10 @@ class Trade extends Model
     // Calcul gain journalier
     public function dailyGain()
     {
-        return $this->amount * $this->category->daily_profit_percent / 100;
+        $profitPercent = $this->relationLoaded('category')
+            ? $this->category?->daily_profit_percent
+            : $this->category()->value('daily_profit_percent');
+
+        return $this->amount * $profitPercent / 100;
     }
 }

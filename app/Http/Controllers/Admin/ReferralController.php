@@ -13,4 +13,11 @@ class ReferralController extends Controller
             'referrals' => Referral::with(['referrer', 'referred', 'userTrade.trade'])->latest()->paginate(20),
         ]);
     }
+
+    public function destroy(Referral $referral)
+    {
+        $referral->delete();
+
+        return back()->with('status', 'Parrainage supprime.');
+    }
 }

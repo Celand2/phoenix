@@ -35,6 +35,13 @@
                         <a class="font-bold text-gold-600 hover:text-gold-800 hover:underline transition-colors" href="{{ route('admin.categories.edit', $category) }}">
                             Modifier
                         </a>
+                        <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer cette categorie ?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="font-bold text-crimson-400 hover:text-crimson-600 hover:underline transition-colors ml-2">
+                                Supprimer
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 @empty

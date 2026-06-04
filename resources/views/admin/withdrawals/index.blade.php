@@ -67,6 +67,13 @@
                                     </button>
                                 </form>
                             @endif
+                            <form action="{{ route('admin.withdrawals.destroy', $withdrawal) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer ce retrait ?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="rounded-lg bg-ash-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-ash-700 transition-all hover:bg-ash-100 active:scale-95">
+                                    Supprimer
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>

@@ -34,7 +34,7 @@
             <nav class="mt-6 grid gap-2 text-sm font-medium text-ash-600" aria-label="Navigation client principale">
                 @foreach ([
                     'Dashboard' => route('client.dashboard'),
-                    'Trades' => route('client.trades.index'),
+                    'Trades' => route('client.categories.index'),
                     'Mes trades' => route('client.my-trades.index'),
                     'Depots' => route('client.deposits.index'),
                     'Retraits' => route('client.withdrawals.index'),
@@ -69,7 +69,7 @@
             </div>
             <nav class="mt-6 grid gap-2 text-sm font-medium text-ash-600" aria-label="Raccourcis client">
                 @foreach ([
-                    'Acheter un trade' => route('client.trades.index'),
+                    'Acheter un trade' => route('client.categories.index'),
                     'Mes gains' => route('client.my-trades.index'),
                     'Faire un depot' => route('client.deposits.index'),
                     'Demander un retrait' => route('client.withdrawals.index'),

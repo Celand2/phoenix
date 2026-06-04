@@ -14,6 +14,10 @@ class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
+    private const WELCOME_NOTIFICATION_TITLE = 'Bienvenue chez phenix Traders';
+    private const WELCOME_NOTIFICATION_BODY = 'Votre compte a été créé avec succès. Bienvenue dans notre communauté de trading !';
+    private const WELCOME_NOTIFICATION_TYPE = 'welcome';
+
     /**
      * Validate and create a newly registered user.
      *
@@ -56,9 +60,9 @@ class CreateNewUser implements CreatesNewUsers
 
         app(\App\Services\NotificationService::class)->send(
             $user,
-            'Bienvenue chez phenix Traders',
-            'Votre compte a été créé avec succès. Bienvenue dans notre communauté de trading !',
-            'welcome'
+            self::WELCOME_NOTIFICATION_TITLE,
+            self::WELCOME_NOTIFICATION_BODY,
+            self::WELCOME_NOTIFICATION_TYPE
         );
 
         return $user;
@@ -73,4 +77,3 @@ class CreateNewUser implements CreatesNewUsers
         return $code;
     }
 }
-

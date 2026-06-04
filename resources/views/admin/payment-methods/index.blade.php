@@ -33,6 +33,13 @@
                         <a class="font-bold text-gold-600 hover:text-gold-800 hover:underline transition-colors" href="{{ route('admin.payment-methods.edit', $paymentMethod) }}">
                             Modifier
                         </a>
+                        <form action="{{ route('admin.payment-methods.destroy', $paymentMethod) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer cette methode ?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="font-bold text-crimson-400 hover:text-crimson-600 hover:underline transition-colors ml-2">
+                                Supprimer
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 @empty

@@ -40,4 +40,11 @@ class DepositController extends Controller
 
         return back()->with('status', 'Depot rejete.');
     }
+
+    public function destroy(Deposit $deposit)
+    {
+        $deposit->delete();
+
+        return back()->with('status', 'Depot supprime.');
+    }
 }

@@ -5,9 +5,14 @@
 @section('content')
 <div class="mb-6 flex items-center justify-between gap-4">
     <h1 class="text-2xl font-black text-ash-900">Mes Dépôts</h1>
-    <a href="{{ route('client.deposits.store') }}" class="rounded-xl bg-crimson-400 px-6 py-3 font-bold text-white transition-all hover:bg-crimson-600 hover:shadow-lg active:scale-95">
-        Nouveau dépôt
-    </a>
+    <div class="flex gap-3">
+        <a href="{{ route('client.categories.index') }}" class="rounded-xl border border-ash-200 bg-white px-6 py-3 font-bold text-ash-600 transition-all hover:bg-ash-50 hover:shadow-md active:scale-95">
+            Voir les catégories
+        </a>
+        <a href="{{ route('client.trades.index') }}" class="rounded-xl bg-crimson-400 px-6 py-3 font-bold text-white transition-all hover:bg-crimson-600 hover:shadow-lg active:scale-95">
+            Nouveau dépôt
+        </a>
+    </div>
 </div>
 
 <div class="overflow-hidden rounded-2xl border border-gold-100 bg-white shadow-sm">

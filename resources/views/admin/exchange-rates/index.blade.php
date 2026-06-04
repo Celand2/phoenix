@@ -41,7 +41,8 @@
                     <th class="p-4">Devise source</th>
                     <th class="p-4">Devise cible</th>
                     <th class="p-4 text-center">Taux de conversion</th>
-                    <th class="p-4 text-right">Statut</th>
+                    <th class="p-4 text-center">Statut</th>
+                    <th class="p-4 text-right">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gold-100 text-ash-900 font-medium">
@@ -50,15 +51,24 @@
                     <td class="p-4 font-black text-ash-900 uppercase tracking-widest">{{ $rate->currency_from }}</td>
                     <td class="p-4 font-black text-ash-900 uppercase tracking-widest">{{ $rate->currency_to }}</td>
                     <td class="p-4 text-center font-black text-gold-600 font-mono">{{ number_format($rate->rate, 6) }}</td>
-                    <td class="p-4 text-right">
+                    <td class="p-4 text-center">
                         <span class="inline-flex rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest {{ $rate->is_active ? 'bg-gold-100 text-gold-800' : 'bg-ash-100 text-ash-400' }}">
                             {{ $rate->is_active ? 'Actif' : 'Inactif' }}
                         </span>
                     </td>
+                    <td class="p-4 text-right">
+                        <form action="{{ route('admin.exchange-rates.destroy', $rate) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer ce taux ?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="font-bold text-crimson-400 hover:text-crimson-600 hover:underline transition-colors">
+                                Supprimer
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="p-12 text-center text-ash-400 italic">
+                    <td colspan="5" class="p-12 text-center text-ash-400 italic">
                         Aucun taux de change enregistré.
                     </td>
                 </tr>

@@ -21,4 +21,11 @@ class UserTradeController extends Controller
 
         return back()->with('status', 'Trade expire.');
     }
+
+    public function destroy(UserTrade $userTrade)
+    {
+        $userTrade->delete();
+
+        return back()->with('status', 'Trade utilisateur supprime.');
+    }
 }

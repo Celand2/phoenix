@@ -103,6 +103,22 @@
                 </div>
             </div>
         </div>
+
+        <!-- Suppression du Compte -->
+        <div class="rounded-2xl border border-crimson-100 bg-crimson-50 p-8 shadow-sm">
+            <h2 class="text-lg font-black text-crimson-800 mb-4 flex items-center gap-2">
+                <span class="size-2 rounded-full bg-crimson-600"></span>
+                Zone de danger
+            </h2>
+            <p class="text-sm text-crimson-700 mb-6">La suppression d'un compte est irreversible. Toutes les donnees associees seront perdues.</p>
+            <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Supprimer definitivement ce compte ?')">
+                @csrf 
+                @method('DELETE')
+                <button class="w-full rounded-xl bg-crimson-600 px-6 py-4 font-black text-white transition-all hover:bg-crimson-700 hover:shadow-lg active:scale-95">
+                    Supprimer le compte
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

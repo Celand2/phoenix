@@ -50,4 +50,11 @@ class UserController extends Controller
 
         return back()->with('status', 'Mot de passe mis a jour.');
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('status', 'Utilisateur supprime.');
+    }
 }

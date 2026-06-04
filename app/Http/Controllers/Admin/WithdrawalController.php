@@ -28,4 +28,11 @@ class WithdrawalController extends Controller
 
         return back()->with('status', 'Retrait rejete.');
     }
+
+    public function destroy(Withdrawal $withdrawal)
+    {
+        $withdrawal->delete();
+
+        return back()->with('status', 'Retrait supprime.');
+    }
 }

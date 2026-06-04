@@ -43,6 +43,11 @@
                         <a class="font-bold text-gold-600 hover:text-gold-800 hover:underline" href="{{ route('admin.users.show', $user) }}">
                             Détails
                         </a>
+                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer cet utilisateur ?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="font-bold text-crimson-400 hover:text-crimson-600 hover:underline ml-2">Supprimer</button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach

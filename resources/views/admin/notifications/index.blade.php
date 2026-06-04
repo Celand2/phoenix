@@ -47,7 +47,8 @@
                     <th class="p-4">Destinataire</th>
                     <th class="p-4">Titre</th>
                     <th class="p-4 text-center">Type</th>
-                    <th class="p-4 text-right">Date d'envoi</th>
+                    <th class="p-4 text-center">Date d'envoi</th>
+                    <th class="p-4 text-right">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gold-100 text-ash-900">
@@ -60,11 +61,20 @@
                             {{ $notification->type }}
                         </span>
                     </td>
-                    <td class="p-4 text-right text-ash-400">{{ $notification->created_at?->format('d/m/Y H:i') }}</td>
+                    <td class="p-4 text-center text-ash-400">{{ $notification->created_at?->format('d/m/Y H:i') }}</td>
+                    <td class="p-4 text-right">
+                        <form action="{{ route('admin.notifications.destroy', $notification) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer cette notification ?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="font-bold text-crimson-400 hover:text-crimson-600 hover:underline transition-colors">
+                                Supprimer
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="p-12 text-center text-ash-400 italic">
+                    <td colspan="5" class="p-12 text-center text-ash-400 italic">
                         Aucune notification envoyée.
                     </td>
                 </tr>

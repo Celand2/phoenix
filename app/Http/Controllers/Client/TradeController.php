@@ -12,18 +12,18 @@ class TradeController extends Controller
 {
     public function index()
     {
-        return view('client.trades.index', ['trades' => Trade::with('category')->active()->paginate(20)]);
+        return redirect()->route('client.categories.index');
     }
 
     public function buy(Trade $trade)
     {
         $exists = UserTrade::where('user_id', Auth::id())
-            ->where('category_id', $trade->category_id)
+            ->where('trade_id', $trade->id)
             ->whereIn('status', ['pending', 'active'])
             ->exists();
 
         if ($exists) {
-            return back()->withErrors(['trade' => 'Vous avez deja un trade actif ou en attente dans cette categorie.']);
+            return back()->withErrors(['trade' => 'Vous avez deja ce trade actif ou en attente.']);
         }
 
         $userTrade = UserTrade::create([

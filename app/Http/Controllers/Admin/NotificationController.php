@@ -28,4 +28,11 @@ class NotificationController extends Controller
 
         return back()->with('status', 'Notification envoyee.');
     }
+
+    public function destroy(Notification $notification)
+    {
+        $notification->delete();
+
+        return back()->with('status', 'Notification supprimee.');
+    }
 }
