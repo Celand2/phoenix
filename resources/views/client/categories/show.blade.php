@@ -47,7 +47,7 @@
         <h2 class="mb-6 text-2xl font-black leading-tight text-ash-900 group-hover:text-crimson-600 transition-colors sm:text-3xl">{{ $trade->name }}</h2>
 
         <div class="mb-8 space-y-3">
-            <div class="flex items-center justify-between rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-gold-100 sm:px-3 sm:py-2">
+            <div class="flex items-center justify-between rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-gold-900 sm:px-3 sm:py-2">
                 <span class="text-[10px] font-bold uppercase tracking-widest text-ash-400">Gain Quotidien</span>
                 <span class="text-lg font-black text-gold-600 sm:text-xl">{{ \App\Support\Money::formatForUser($trade->dailyGain(), auth()->user()) }}</span>
             </div>
