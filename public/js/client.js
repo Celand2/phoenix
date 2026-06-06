@@ -9,14 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const remaining = new Date(nextClaimAt).getTime() - Date.now();
             if (remaining <= 0) {
                 button.disabled = false;
-                button.textContent = 'Reclamer';
+                button.textContent = 'Trade';
                 button.className = 'claim-button mt-4 rounded-lg px-4 py-2 font-bold bg-gold-400 text-ash-900 hover:bg-gold-600 animate-pulse';
                 return;
             }
 
             const hours = Math.floor(remaining / 3600000);
             const minutes = Math.ceil((remaining % 3600000) / 60000);
-            button.textContent = `Disponible dans ${hours}h ${minutes}min`;
+            button.textContent = `Prochain Trade : ${hours}h ${minutes}m`;
         };
 
         updateCountdown();
@@ -25,21 +25,90 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', async () => {
             if (button.disabled) return;
 
-            const response = await fetch(button.dataset.claimUrl, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': token,
-                    'Accept': 'application/json',
-                },
-            });
-            const payload = await response.json();
+            const originalContent = button.innerHTML;
+            const dailyGainUsd = parseFloat(button.dataset.dailyGain || '0');
+            const rate = parseFloat(button.dataset.rate || '1');
+            const currency = button.dataset.currency || 'USD';
+            const dailyGainLocal = dailyGainUsd * rate;
+            
+            // Simulation de trade
+            button.disabled = true;
+            button.classList.add('relative', 'overflow-hidden');
+            
+            const formatValue = (val) => {
+                const decimals = currency === 'FBU' ? 0 : 2;
+                return val.toLocaleString('fr-FR', {
+                    minimumFractionDigits: decimals,
+                    maximumFractionDigits: decimals,
+                }) + ' ' + currency;
+            };
 
-            if (payload.success) {
-                const balance = document.querySelector('#balance-gains');
-                if (balance) balance.textContent = payload.balance_gains;
-                button.disabled = true;
-                button.dataset.nextClaimAt = new Date(Date.now() + 86400000).toISOString();
-                updateCountdown();
+            const runAnimation = () => {
+                return new Promise((resolve) => {
+                    let current = 0;
+                    const duration = 2500; // Un peu plus long pour l'effet
+                    const start = Date.now();
+                    
+                    const animate = () => {
+                        const elapsed = Date.now() - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        
+                        // Easing out function (plus dramatique)
+                        const easeOutQuart = t => 1 - (--t) * t * t * t;
+                        current = dailyGainLocal * easeOutQuart(progress);
+                        
+                        button.innerHTML = `
+                            <div class="flex flex-col items-center">
+                                <span class="text-[10px] uppercase tracking-[0.2em] opacity-80 leading-none mb-1">Trading en cours...</span>
+                                <span class="text-xl font-black text-gold-950">${formatValue(current)}</span>
+                            </div>
+                        `;
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            resolve();
+                        }
+                    };
+                    requestAnimationFrame(animate);
+                });
+            };
+
+            try {
+                // On lance l'animation et la requête en parallèle pour plus de fluidité
+                const [response] = await Promise.all([
+                    fetch(button.dataset.claimUrl, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json',
+                        },
+                    }),
+                    runAnimation()
+                ]);
+
+                const payload = await response.json();
+
+                if (payload.success) {
+                    const balance = document.querySelector('#balance-gains');
+                    if (balance) balance.textContent = payload.balance_gains;
+                    
+                    button.innerHTML = 'Succès !';
+                    button.className = 'claim-button flex w-full items-center justify-center rounded-2xl py-4 text-lg font-black transition-all lg:w-auto lg:px-10 bg-green-500 text-white';
+                    
+                    setTimeout(() => {
+                        button.dataset.nextClaimAt = new Date(Date.now() + 86400000).toISOString();
+                        updateCountdown();
+                    }, 2000);
+                } else {
+                    button.innerHTML = originalContent;
+                    button.disabled = false;
+                    alert(payload.message || 'Erreur lors du claim');
+                }
+            } catch (error) {
+                button.innerHTML = originalContent;
+                button.disabled = false;
+                console.error(error);
             }
         });
     });

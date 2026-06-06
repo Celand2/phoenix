@@ -1,258 +1,842 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ config('app.name', 'phenix Traders') }} - L'excellence en Trading</title>
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="bg-slate-50 text-slate-900 font-sans selection:bg-crimson-100 selection:text-crimson-700">
-        <!-- Header / Nav -->
-        <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-slate-200">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <div class="size-8 bg-crimson-600 rounded-lg flex items-center justify-center">
-                            <svg class="size-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                            </svg>
-                        </div>
-                        <span class="text-xl font-black text-slate-900 tracking-tight italic uppercase">phenix<span class="text-crimson-600">Traders</span></span>
-                    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phenix Traders | Elite Investment Platform</title>
+    <!-- Elegant Typography -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- ght@700;800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet"> -->
+    <style>
+        :root {
+            --fire: #E8420A;
+            --fire-rgb: 232, 66, 10;
+            --ember: #F47820;
+            --gold: #F5A623;
+            --cream: #FFF8F0;
+            --sand: #F9F0E3;
+            --text: #2D1B08;
+            --white: #FFFFFF;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-                    <div class="flex items-center gap-4">
-                        <nav class="hidden md:flex items-center gap-8 mr-4">
-                            <a href="#about" class="text-sm font-semibold text-slate-600 hover:text-crimson-600 transition-colors">À propos</a>
-                            <a href="#features" class="text-sm font-semibold text-slate-600 hover:text-crimson-600 transition-colors">Fonctionnalités</a>
-                        </nav>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-                        @auth
-                            <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('client.dashboard') }}" class="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2 text-sm font-bold text-white hover:bg-slate-800 transition-all">
-                                Dashboard
-                            </a>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            /* line-height: 1.6;<link href="https://fonts.googleapis.com/css2?family=Syne:w */
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navigation */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 248, 240, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(245, 166, 35, 0.1);
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 10px 30px rgba(45, 27, 8, 0.05);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            color: var(--fire);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .brand span {
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            color: var(--fire);
+        }
+
+        .nav-auth {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 12px;
+            font-weight: 600px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .btn-outline {
+            border: 2px solid rgba(232, 66, 10, 0.2);
+            color: var(--fire);
+        }
+
+        .btn-outline:hover {
+            background: rgba(232, 66, 10, 0.05);
+            border-color: var(--fire);
+        }
+
+        .btn-primary {
+            background: var(--fire);
+            color: var(--white);
+            box-shadow: 0 8px 20px rgba(var(--fire-rgb), 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(var(--fire-rgb), 0.35);
+            background: #d13b09;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: var(--fire);
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 50%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(245, 166, 35, 0.15) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .hero-content h1 span {
+            background: linear-gradient(135deg, var(--fire), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: #5D4A3A;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 4rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 4rem;
+            padding: 2.5rem;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(45, 27, 8, 0.04);
+            border: 1px solid rgba(245, 166, 35, 0.1);
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: var(--fire);
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-item p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #A38F7F;
+            margin-bottom: 0;
+        }
+
+        /* About Section */
+        .section-padding {
+            padding: 120px 0;
+        }
+
+        .about {
+            background: var(--sand);
+            border-radius: 60px 60px 0 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: rgba(232, 66, 10, 0.1);
+            color: var(--fire);
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .about-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 32px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 30px 60px rgba(232, 66, 10, 0.08);
+        }
+
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--cream);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            color: var(--fire);
+        }
+
+        .about-card h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-card p {
+            color: #7A6655;
+        }
+
+        /* Referrals Section */
+        .referrals {
+            background: var(--white);
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .step-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--cream);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            color: var(--fire);
+            margin: 0 auto 2rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        .commission-box {
+            margin-top: 60px;
+            background: linear-gradient(135deg, var(--fire), var(--ember));
+            border-radius: 40px;
+            padding: 4rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+        }
+
+        .commission-content h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .levels {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .level-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .level-item .perc {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--sand);
+            padding: 100px 0 50px;
+            border-top: 1px solid rgba(245, 166, 35, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 80px;
+        }
+
+        .footer-logo {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-desc {
+            color: #7A6655;
+            max-width: 300px;
+        }
+
+        .footer-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #7A6655;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: var(--fire);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--white);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fire);
+            border: 1px solid rgba(245, 166, 35, 0.1);
+        }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid rgba(245, 166, 35, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #A38F7F;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--cream);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            padding: 100px 2rem;
+            transform: translateY(-100%);
+            transition: var(--transition);
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .mobile-links a {
+            font-size: 2rem;
+            font-family: 'Syne', sans-serif;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-auth {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .steps-container {
+                grid-template-columns: 1fr;
+            }
+            .commission-box {
+                flex-direction: column;
+                padding: 3rem 2rem;
+                text-align: center;
+            }
+            .levels {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero-stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            opacity: 0;
+        }
+
+        .animate.visible {
+            animation: fadeIn 0.8s forwards ease-out;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="header">
+        <div class="container nav-wrapper">
+            <a href="/" class="brand">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 2L19 11H29L21 17L24 26L16 20L8 26L11 17L3 11H13L16 2Z" fill="var(--fire)"/>
+                </svg>
+                PHENIX<span>TRADERS</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#referrals" class="nav-link">Referrals</a>
+            </nav>
+
+            <div class="nav-auth" id="auth-desktop">
+                @guest
+                    <a href="{{ route('login') }}" class="btn btn-outline">Connexion</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+                @else
+                    <a href="{{ route('client.dashboard') }}" class="btn btn-primary">Dashboard</a>
+                @endguest
+            </div>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-links">
+            <a href="#about" onclick="toggleMenu()">About</a>
+            <a href="#referrals" onclick="toggleMenu()">Referrals</a>
+        </nav>
+        <div class="nav-auth-mobile" style="display: flex; flex-direction: column; gap: 1rem;">
+            @guest
+                <a href="{{ route('login') }}" class="btn btn-outline">Connexion</a>
+                <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+            @else
+                <a href="{{ route('client.dashboard') }}" class="btn btn-primary">Dashboard</a>
+            @endguest
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-content animate">
+                    <h2>Renaître pour <span>Gagner</span>.</h2>
+                    <p>Découvrez la plateforme d'investissement nouvelle génération. Sécurisée, transparente et conçue pour une croissance exponentielle de votre capital.</p>
+                    <div class="hero-actions">
+                        @guest
+                            <a href="{{ route('register') }}" class="btn btn-primary">Ouvrir un compte</a>
                         @else
-                            <div class="flex items-center gap-2 sm:gap-4">
-                                <a href="{{ route('login') }}" class="text-sm font-semibold text-slate-600 hover:text-crimson-600">Connexion</a>
-                                <a href="{{ route('register') }}" class="inline-flex items-center justify-center rounded-full bg-crimson-600 px-4 py-2 sm:px-5 sm:py-2 text-sm font-bold text-white shadow-lg shadow-crimson-200 hover:bg-crimson-700 transition-all hover:-translate-y-0.5">
-                                    Commencer
-                                </a>
-                            </div>
-                        @endauth
+                            <a href="{{ route('client.dashboard') }}" class="btn btn-primary">Accéder au Dashboard</a>
+                        @endguest
+                        <a href="#about" class="btn btn-outline">En savoir plus</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <h3>12K+</h3>
+                            <p>Investisseurs</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>$4.2M</h3>
+                            <p>Actifs Gérés</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>99.9%</h3>
+                            <p>Uptime</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual animate delay-1">
+                    <div style="width: 100%; aspect-ratio: 1; background: linear-gradient(45deg, var(--sand), var(--white)); border-radius: 40px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 40px 80px rgba(45,27,8,0.1);">
+                        <div style="width: 60%; height: 60%; background: var(--fire); border-radius: 50%; filter: blur(60px); opacity: 0.2; position: absolute; top: 10%; left: 10%;"></div>
+                        <div style="width: 50%; height: 50%; background: var(--gold); border-radius: 50%; filter: blur(50px); opacity: 0.15; position: absolute; bottom: 10%; right: 10%;"></div>
+                        <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="var(--fire)" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                        <div class="md:hidden ml-2">
-                            <button type="button" class="text-slate-600">
-                                <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                                </svg>
-                            </button>
+        <!-- About Section -->
+        <section id="about" class="section-padding about">
+            <div class="container">
+                <div class="section-header animate">
+                    <span class="badge">Notre Vision</span>
+                    <h2>La transparence au cœur du trading.</h2>
+                    <p>Phenix Traders n'est pas seulement une plateforme, c'est un écosystème conçu pour les investisseurs modernes qui exigent sécurité et performance.</p>
+                </div>
+                <div class="about-grid">
+                    <div class="about-card animate delay-1">
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <h4>Sécurité Maximale</h4>
+                        <p>Vos fonds sont protégés par des protocoles de cryptage de pointe et une gestion rigoureuse des actifs.</p>
+                    </div>
+                    <div class="about-card animate delay-2">
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <h4>Support 24/7</h4>
+                        <p>Une équipe d'experts dédiée est à votre disposition jour et nuit pour répondre à toutes vos questions.</p>
+                    </div>
+                    <div class="about-card animate delay-3">
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <h4>Présence Mondiale</h4>
+                        <p>Plus de 40 pays nous font confiance pour la gestion de leurs investissements numériques.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Referrals Section -->
+        <section id="referrals" class="section-padding referrals">
+            <div class="container">
+                <div class="section-header animate">
+                    <span class="badge">Programme de Parrainage</span>
+                    <h2>Gagnez ensemble.</h2>
+                    <p>Invitez vos amis et construisez un revenu passif durable grâce à notre programme de parrainage multi-niveaux.</p>
+                </div>
+                <div class="steps-container">
+                    <div class="step-item animate delay-1">
+                        <div class="step-number">1</div>
+                        <h3>Obtenez votre lien</h3>
+                        <p>Inscrivez-vous et récupérez votre lien unique dans votre dashboard.</p>
+                    </div>
+                    <div class="step-item animate delay-2">
+                        <div class="step-number">2</div>
+                        <h3>Invitez vos contacts</h3>
+                        <p>Partagez votre lien sur vos réseaux sociaux ou directement avec vos amis.</p>
+                    </div>
+                    <div class="step-item animate delay-3">
+                        <div class="step-number">3</div>
+                        <h3>Percevez vos gains</h3>
+                        <p>Recevez des commissions instantanées sur chaque investissement de vos filleuls.</p>
+                    </div>
+                </div>
+
+                <div class="commission-box animate">
+                    <div class="commission-content">
+                        <h3>Jusqu'à 15% de commission</h3>
+                        <p>Un système généreux récompensant votre réseau sur 3 niveaux de profondeur.</p>
+                        @guest
+                            <a href="{{ route('register') }}" class="btn btn-primary" style="margin-top: 2rem; background: var(--white); color: var(--fire);">Commencer maintenant</a>
+                        @else
+                            <a href="{{ route('client.dashboard') }}" class="btn btn-primary" style="margin-top: 2rem; background: var(--white); color: var(--fire);">Mon Lien de Parrainage</a>
+                        @endguest
+                    </div>
+                    <div class="levels">
+                        <div class="level-item">
+                            <span class="perc">10%</span>
+                            <span>Niveau 1</span>
+                        </div>
+                        <div class="level-item">
+                            <span class="perc">3%</span>
+                            <span>Niveau 2</span>
+                        </div>
+                        <div class="level-item">
+                            <span class="perc">1%</span>
+                            <span>Niveau 3</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
+        </section>
+    </main>
 
-        <main>
-            <!-- Hero Section -->
-            <section class="relative pt-20 pb-32 overflow-hidden">
-                <div class="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.crimson.50),white)]"></div>
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
-                        <div class="lg:col-span-7">
-                            <div class="inline-flex items-center gap-2 rounded-full bg-crimson-50 px-3 py-1 text-sm font-bold text-crimson-600 ring-1 ring-inset ring-crimson-600/10 mb-8">
-                                <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-crimson-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-crimson-500"></span>
-                                </span>
-                                Plateforme de Trading Nouvelle Génération
-                            </div>
-                            <h1 class="text-5xl font-black tracking-tight text-slate-900 sm:text-7xl leading-[1.1]">
-                                Multipliez vos actifs avec <span class="text-crimson-600">intelligence</span>.
-                            </h1>
-                            <p class="mt-8 text-xl text-slate-600 leading-relaxed max-w-2xl">
-                                phenix Traders offre une expérience de trading simplifiée, sécurisée et hautement rentable. Profitez de nos algorithmes avancés et de notre système de parrainage unique.
-                            </p>
-                            <div class="mt-10 flex flex-wrap gap-4">
-                                @guest
-                                    <a href="{{ route('register') }}" class="rounded-2xl bg-crimson-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-crimson-200 hover:bg-crimson-700 transition-all active:scale-95">
-                                        Ouvrir un compte
-                                    </a>
-                                    <a href="{{ route('login') }}" class="rounded-2xl bg-white px-8 py-4 text-lg font-bold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 transition-all">
-                                        Se connecter
-                                    </a>
-                                @else
-                                    <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('client.dashboard') }}" class="rounded-2xl bg-slate-900 px-8 py-4 text-lg font-bold text-white shadow-xl hover:bg-slate-800 transition-all active:scale-95">
-                                        Accéder au Dashboard
-                                    </a>
-                                @endguest
-                                <a href="#about" class="rounded-2xl bg-white px-8 py-4 text-lg font-bold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 transition-all">
-                                    En savoir plus
-                                </a>
-                            </div>
-                        </div>
-                        <div class="hidden lg:block lg:col-span-5">
-                            <div class="relative">
-                                <div class="absolute -inset-1 rounded-[2rem] bg-gradient-to-tr from-crimson-600 to-amber-400 opacity-20 blur-2xl"></div>
-                                <div class="relative bg-white rounded-[2rem] p-8 shadow-2xl ring-1 ring-slate-900/5">
-                                    <div class="space-y-6">
-                                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
-                                            <div class="flex items-center gap-3">
-                                                <div class="size-10 bg-emerald-500 rounded-full flex items-center justify-center text-white">
-                                                    <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-                                                </div>
-                                                <div>
-                                                    <p class="text-xs font-bold text-slate-400 uppercase">Profit Journalier</p>
-                                                    <p class="text-lg font-black text-slate-900">+2.45%</p>
-                                                </div>
-                                            </div>
-                                            <div class="text-emerald-500 font-bold">Détails</div>
-                                        </div>
-                                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
-                                            <div class="flex items-center gap-3">
-                                                <div class="size-10 bg-crimson-500 rounded-full flex items-center justify-center text-white">
-                                                    <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                                </div>
-                                                <div>
-                                                    <p class="text-xs font-bold text-slate-400 uppercase">Solde Total</p>
-                                                    <p class="text-lg font-black text-slate-900">$12,450.00</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <a href="/" class="brand footer-logo">
+                        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 2L19 11H29L21 17L24 26L16 20L8 26L11 17L3 11H13L16 2Z" fill="var(--fire)"/>
+                        </svg>
+                        PHENIX<span>TRADERS</span>
+                    </a>
+                    <p class="footer-desc">Redéfinir l'investissement pour une nouvelle ère de prospérité numérique.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">X</a>
+                        <a href="#" class="social-icon">TG</a>
+                        <a href="#" class="social-icon">DC</a>
                     </div>
                 </div>
-            </section>
-
-            <!-- About Section -->
-            <section id="about" class="py-24 bg-white border-y border-slate-100">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="grid lg:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <h2 class="text-sm font-black uppercase tracking-[0.2em] text-crimson-600 mb-4">À propos de phenix</h2>
-                            <p class="text-4xl font-black text-slate-900 tracking-tight mb-6">Une vision claire pour votre liberté financière.</p>
-                            <div class="space-y-6 text-lg text-slate-600 leading-relaxed">
-                                <p>
-                                    phenix Traders est né de la volonté de démocratiser l'accès aux marchés financiers performants. Notre plateforme combine expertise humaine et intelligence algorithmique pour générer des profits stables.
-                                </p>
-                                <p>
-                                    Nous croyons en la transparence et en la puissance de la communauté. C'est pourquoi nous avons mis en place un système de parrainage équitable qui récompense ceux qui aident à faire grandir l'écosystème phenix.
-                                </p>
-                            </div>
-                            <div class="mt-10 grid grid-cols-2 gap-8 border-t border-slate-100 pt-10">
-                                <div>
-                                    <p class="text-3xl font-black text-slate-900">99.9%</p>
-                                    <p class="text-sm text-slate-500 font-medium">Uptime plateforme</p>
-                                </div>
-                                <div>
-                                    <p class="text-3xl font-black text-slate-900">24/7</p>
-                                    <p class="text-sm text-slate-500 font-medium">Support expert</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="space-y-4 pt-12">
-                                <div class="aspect-square rounded-3xl bg-slate-100 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1611974717482-9905261c149d?auto=format&fit=crop&q=80&w=400" alt="Trading" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-500">
-                                </div>
-                                <div class="aspect-[4/5] rounded-3xl bg-crimson-600"></div>
-                            </div>
-                            <div class="space-y-4">
-                                <div class="aspect-[4/5] rounded-3xl bg-slate-900 flex items-end p-6">
-                                    <p class="text-white font-black text-xl leading-tight">L'innovation au cœur de nos algorithmes.</p>
-                                </div>
-                                <div class="aspect-square rounded-3xl bg-slate-100 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1642390233410-aa3348e307f0?auto=format&fit=crop&q=80&w=400" alt="Crypto" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-500">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <h5 class="footer-title">Plateforme</h5>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#referrals">Referrals</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
                 </div>
-            </section>
-
-            <!-- Features -->
-            <section id="features" class="py-24 bg-slate-50">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="text-center max-w-3xl mx-auto mb-20">
-                        <h2 class="text-sm font-black uppercase tracking-[0.2em] text-crimson-600 mb-4">Fonctionnalités Clés</h2>
-                        <p class="text-4xl font-black text-slate-900 tracking-tight">Tout ce dont vous avez besoin pour réussir votre trading.</p>
-                    </div>
-
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all border border-slate-100 group">
-                            <div class="size-16 bg-crimson-50 rounded-2xl flex items-center justify-center text-crimson-600 mb-8 group-hover:bg-crimson-600 group-hover:text-white transition-all">
-                                <svg class="size-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            </div>
-                            <h3 class="text-xl font-black text-slate-900 mb-4">Profits Automatisés</h3>
-                            <p class="text-slate-600 leading-relaxed">Investissez dans nos plans de trading et laissez nos algorithmes travailler pour vous. Des rendements calculés et versés quotidiennement.</p>
-                        </div>
-
-                        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all border border-slate-100 group">
-                            <div class="size-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-8 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                                <svg class="size-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                            </div>
-                            <h3 class="text-xl font-black text-slate-900 mb-4">Programme de Parrainage</h3>
-                            <p class="text-slate-600 leading-relaxed">Gagnez des commissions sur 3 niveaux (5%, 3%, 1%) pour chaque nouvel investisseur que vous parrainez dans l'écosystème.</p>
-                        </div>
-
-                        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all border border-slate-100 group">
-                            <div class="size-16 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-8 group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                                <svg class="size-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                            </div>
-                            <h3 class="text-xl font-black text-slate-900 mb-4">Sécurité Maximale</h3>
-                            <p class="text-slate-600 leading-relaxed">La sécurité de vos fonds est notre priorité absolue. Nous utilisons des protocoles de cryptage de pointe et une validation manuelle des retraits.</p>
-                        </div>
-                    </div>
+                <div>
+                    <h5 class="footer-title">Compte</h5>
+                    <ul class="footer-links">
+                        @guest
+                            <li><a href="{{ route('login') }}">Connexion</a></li>
+                            <li><a href="{{ route('register') }}">Inscription</a></li>
+                        @else
+                            <li><a href="{{ route('client.dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ route('client.profile.index') }}">Profil</a></li>
+                        @endguest
+                    </ul>
                 </div>
-            </section>
-        </main>
-
-        <footer class="bg-slate-900 pt-20 pb-10 text-slate-400">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="grid md:grid-cols-4 gap-12 mb-16">
-                    <div class="col-span-2">
-                        <div class="flex items-center gap-2 mb-6">
-                            <div class="size-8 bg-crimson-600 rounded-lg flex items-center justify-center">
-                                <svg class="size-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                                </svg>
-                            </div>
-                            <span class="text-xl font-black text-white tracking-tight italic uppercase">phenix<span class="text-crimson-600">Traders</span></span>
-                        </div>
-                        <p class="text-lg max-w-sm">Redéfinir le futur de l'investissement social et du trading automatisé pour tous.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-6">Liens Rapides</h4>
-                        <ul class="space-y-4">
-                            <li><a href="#about" class="hover:text-white transition-colors">À propos</a></li>
-                            <li><a href="#features" class="hover:text-white transition-colors">Fonctionnalités</a></li>
-                            @auth
-                                <li><a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('client.dashboard') }}" class="hover:text-white transition-colors">Dashboard</a></li>
-                            @else
-                                <li><a href="{{ route('login') }}" class="hover:text-white transition-colors">Connexion</a></li>
-                                <li><a href="{{ route('register') }}" class="hover:text-white transition-colors">Inscription</a></li>
-                            @endauth
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-6">Légal</h4>
-                        <ul class="space-y-4">
-                            <li><a href="#" class="hover:text-white transition-colors">Conditions d'utilisation</a></li>
-                            <li><a href="#" class="hover:text-white transition-colors">Politique de confidentialité</a></li>
-                            <li><a href="#" class="hover:text-white transition-colors">Avertissement de risque</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="pt-8 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p>&copy; {{ date('Y') }} phenix Traders. Tous droits réservés.</p>
-                    <div class="flex gap-6">
-                        <a href="#" class="hover:text-white transition-colors">Twitter</a>
-                        <a href="#" class="hover:text-white transition-colors">Telegram</a>
-                        <a href="#" class="hover:text-white transition-colors">Discord</a>
-                    </div>
+                <div>
+                    <h5 class="footer-title">Légal</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
                 </div>
             </div>
-        </footer>
-    </body>
+            <div class="footer-bottom">
+                <p>&copy; 2026 phenix Traders. Tous droits réservés.</p>
+                <p>Designed for Excellence</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simulation Auth logic
+        const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.querySelector('.hamburger');
+            menu.classList.toggle('active');
+            
+            // Animation for hamburger could be added here
+        }
+
+        // Simple Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+    </script>
+</body>
 </html>

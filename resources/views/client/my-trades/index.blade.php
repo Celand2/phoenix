@@ -63,7 +63,7 @@
             <div class="mt-auto flex flex-col items-center gap-4 pt-6 border-t border-ash-100 lg:flex-row lg:justify-between">
                 <div>
                     @if(!$userTrade->isClaimable() && $nextClaimAt)
-                    <p class="text-[10px] font-black uppercase tracking-widest text-ash-400">Prochaine réclamation</p>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-ash-400">Prochain Trade</p>
                     <p class="text-sm font-bold text-ash-900">{{ $nextClaimAt->format('d/m/Y à H:i') }}</p>
                     @else
                     <p class="text-[10px] font-black uppercase tracking-widest text-gold-600 animate-pulse">Disponible !</p>
@@ -73,10 +73,13 @@
                 <button 
                     data-claim-url="{{ route('client.my-trades.claim', $userTrade) }}" 
                     data-next-claim-at="{{ $nextClaimAt?->toIso8601String() }}" 
+                    data-daily-gain="{{ $userTrade->daily_gain }}"
+                    data-currency="{{ auth()->user()->preferred_currency ?? 'USD' }}"
+                    data-rate="{{ auth()->user()->preferred_rate ?? 1 }}"
                     class="claim-button flex w-full items-center justify-center rounded-2xl py-4 text-lg font-black transition-all lg:w-auto lg:px-10 {{ $userTrade->isClaimable() ? 'bg-gold-400 text-gold-950 hover:bg-gold-500 shadow-lg' : 'bg-ash-100 text-ash-400 cursor-not-allowed' }}" 
                     @disabled(! $userTrade->isClaimable())
                 >
-                    Réclamer
+                    Trade
                 </button>
             </div>
             @endif
