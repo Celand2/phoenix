@@ -10,9 +10,9 @@
             <p class="text-4xl font-black md:text-5xl">{{ $user->name }}</p>
         </div>
         <div class="text-right">
-            <p class="text-sm font-bold uppercase tracking-widest text-gold-50 opacity-80">Solde Total</p>
+            <p class="text-sm font-bold uppercase tracking-widest text-gold-50 opacity-80">Solde principal</p>
             <p class="text-4xl font-black md:text-5xl">
-                {{ \App\Support\Money::formatForUser($user->balance_invested + $user->balance_gains, $user) }}
+                {{ \App\Support\Money::formatForUser($user->balance_gains, $user) }}
             </p>
         </div>
     </div>

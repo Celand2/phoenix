@@ -13,7 +13,7 @@ class UserTradeController extends Controller
     public function index()
     {
         return view('client.my-trades.index', [
-            'userTrades' => UserTrade::with(['trade', 'category'])->where('user_id', Auth::id())->latest()->paginate(20),
+            'userTrades' => UserTrade::with(['trade', 'category'])->where('user_id', Auth::id())->active()->latest()->paginate(20),
         ]);
     }
 
