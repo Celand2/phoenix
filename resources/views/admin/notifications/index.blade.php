@@ -54,7 +54,15 @@
             <tbody class="divide-y divide-gold-100 text-ash-900">
                 @forelse($notifications as $notification)
                 <tr class="transition-colors hover:bg-gold-50/50">
-                    <td class="p-4 font-bold text-ash-900">{{ $notification->user?->name }}</td>
+                    <td class="p-4">
+                        @if($notification->admin_id)
+                            <span class="inline-flex rounded-md bg-crimson-100 px-2 py-1 text-[10px] font-black uppercase tracking-widest text-crimson-600 mb-1">
+                                ADMIN: {{ $notification->admin?->name }}
+                            </span>
+                        @else
+                            <span class="font-bold text-ash-900">{{ $notification->user?->name }}</span>
+                        @endif
+                    </td>
                     <td class="p-4 text-ash-600">{{ $notification->title }}</td>
                     <td class="p-4 text-center">
                         <span class="inline-flex rounded-md bg-ash-100 px-2 py-1 text-[10px] font-black uppercase tracking-widest text-ash-600">

@@ -26,17 +26,8 @@ class TradeController extends Controller
             return back()->withErrors(['trade' => 'Vous avez deja ce trade actif ou en attente.']);
         }
 
-        $userTrade = UserTrade::create([
-            'user_id' => Auth::id(),
-            'trade_id' => $trade->id,
-            'category_id' => $trade->category_id,
-            'amount' => $trade->amount,
-            'daily_gain' => $trade->dailyGain(),
-            'status' => 'pending',
-        ]);
-
         return view('client.deposits.create', [
-            'userTrade' => $userTrade->load('trade.category'),
+            'trade' => $trade->load('category'),
             'paymentMethods' => PaymentMethod::with('exchangeRate')->active()->get(),
         ]);
     }

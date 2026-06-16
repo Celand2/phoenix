@@ -13,9 +13,15 @@
                         <p style="line-height:1.6;color:#5E504A;font-size:16px;margin-top:20px;">{{ $notification->body }}</p>
                         
                         <div style="margin-top:40px;text-align:center;">
-                            <a href="{{ url('/client/dashboard') }}" style="display:inline-block;background-color:#E03030;color:#ffffff;padding:16px 32px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;box-shadow:0 4px 12px rgba(224,48,48,0.3);">
-                                Accéder à mon compte
-                            </a>
+                            @if($notification->admin_id)
+                                <a href="{{ url('/admin/dashboard') }}" style="display:inline-block;background-color:#E03030;color:#ffffff;padding:16px 32px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;box-shadow:0 4px 12px rgba(224,48,48,0.3);">
+                                    Accéder au Panel Admin
+                                </a>
+                            @else
+                                <a href="{{ url('/client/dashboard') }}" style="display:inline-block;background-color:#E03030;color:#ffffff;padding:16px 32px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;box-shadow:0 4px 12px rgba(224,48,48,0.3);">
+                                    Accéder à mon compte
+                                </a>
+                            @endif
                         </div>
                     </div>
                     <div style="background-color:#F5F0EE;padding:20px;text-align:center;font-size:12px;color:#8C7E78;">

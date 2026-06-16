@@ -6,11 +6,11 @@
     
     <form method="POST" action="{{ route('client.deposits.store') }}" enctype="multipart/form-data" class="grid gap-6 rounded-2xl border border-gold-100 bg-white p-8 shadow-sm" data-money-converter>
         @csrf
-        <input type="hidden" name="user_trade_id" value="{{ $userTrade->id }}">
+        <input type="hidden" name="trade_id" value="{{ $trade->id }}">
         
         <div class="flex items-center justify-between border-b border-gold-100 pb-4">
-            <h2 class="text-xl font-bold text-ash-900">{{ $userTrade->trade?->name }}</h2>
-            <span class="text-2xl font-black text-crimson-600">{{ \App\Support\Money::formatUsd($userTrade->amount) }}</span>
+            <h2 class="text-xl font-bold text-ash-900">{{ $trade->name }}</h2>
+            <span class="text-2xl font-black text-crimson-600">{{ \App\Support\Money::formatUsd($trade->amount) }}</span>
         </div>
 
         <div class="grid gap-2">
@@ -32,9 +32,9 @@
             <p class="mt-3 whitespace-pre-line font-medium text-ash-700" data-details-content>{{ $paymentMethods->first()?->details }}</p>
         </div>
 
-        <div class="rounded-xl border border-ash-100 bg-ash-50 p-4" data-money-preview data-amount-usd="{{ $userTrade->amount }}">
+        <div class="rounded-xl border border-ash-100 bg-ash-50 p-4" data-money-preview data-amount-usd="{{ $trade->amount }}">
             <p class="text-xs font-bold uppercase tracking-widest text-ash-400">Montant à envoyer</p>
-            <p class="mt-1 text-lg font-black text-ash-900">Equivalent: {{ \App\Support\Money::formatUsd($userTrade->amount) }}</p>
+            <p class="mt-1 text-lg font-black text-ash-900">Equivalent: {{ \App\Support\Money::formatUsd($trade->amount) }}</p>
         </div>
 
         <div class="grid gap-2">

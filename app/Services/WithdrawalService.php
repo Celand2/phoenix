@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\DB;
 class WithdrawalService
 {
     protected NotificationService $notificationService;
+    protected AdminNotificationService $adminNotificationService;
 
-    public function __construct(NotificationService $notificationService)
+    public function __construct(NotificationService $notificationService, AdminNotificationService $adminNotificationService)
     {
         $this->notificationService = $notificationService;
+        $this->adminNotificationService = $adminNotificationService;
     }
 
     public function create(
@@ -73,6 +75,12 @@ class WithdrawalService
                 'Demande de Retrait',
                 'Votre demande de retrait de ' . Money::formatSnapshot($amountUsd, $amountRequestedLocal, $currency) . ' est en cours de traitement.',
                 'withdrawal_pending'
+            );
+
+            $this->adminNotificationService->notifyAdmins(
+                'Nouvelle Demande de Retrait',
+                "L'utilisateur {$user->name} a demande un retrait de " . Money::formatUsd($amountUsd) . " vers {$paymentMethod->name}.",
+                'new_withdrawal'
             );
         });
 

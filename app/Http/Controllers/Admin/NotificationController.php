@@ -12,7 +12,10 @@ class NotificationController extends Controller
 {
     public function index()
     {
-        return view('admin.notifications.index', ['notifications' => Notification::with('user')->latest()->paginate(20), 'users' => User::orderBy('name')->get()]);
+        return view('admin.notifications.index', [
+            'notifications' => Notification::with(['user', 'admin'])->latest()->paginate(20),
+            'users' => User::orderBy('name')->get()
+        ]);
     }
 
     public function send(Request $request, NotificationService $notificationService)

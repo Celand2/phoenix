@@ -65,6 +65,12 @@ class CreateNewUser implements CreatesNewUsers
             self::WELCOME_NOTIFICATION_TYPE
         );
 
+        app(\App\Services\AdminNotificationService::class)->notifyAdmins(
+            'Nouvel Utilisateur',
+            "Un nouvel utilisateur s'est inscrit : {$user->name} ({$user->email}).",
+            'new_user'
+        );
+
         return $user;
     }
 

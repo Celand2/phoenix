@@ -7,6 +7,7 @@ use App\Models\Deposit;
 use App\Models\PaymentMethod;
 use App\Models\UserTrade;
 use App\Support\Money;
+use App\Services\AdminNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,15 +18,26 @@ class DepositController extends Controller
         return view('client.deposits.index', ['deposits' => Deposit::with(['userTrade.trade', 'paymentMethod'])->where('user_id', Auth::id())->latest()->paginate(20)]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, AdminNotificationService $adminNotifications)
     {
         $data = $request->validate([
-            'user_trade_id' => ['required', 'exists:user_trades,id'],
+            'trade_id' => ['required', 'exists:trades,id'],
             'payment_method_id' => ['required', 'exists:payment_methods,id'],
-            'proof' => ['nullable', 'image', 'max:4096'],
+            'proof' => ['required', 'image', 'max:4096'],
         ]);
 
         $user = Auth::user();
+
+        // Check for existing pending or active trade
+        $exists = UserTrade::where('user_id', $user->id)
+            ->where('trade_id', $data['trade_id'])
+            ->whereIn('status', ['pending', 'active'])
+            ->exists();
+
+        if ($exists) {
+            return redirect()->route('client.categories.index')->withErrors(['trade' => 'Vous avez deja ce trade actif ou en attente.']);
+        }
+
         $paymentMethod = PaymentMethod::with('exchangeRate')->active()->findOrFail($data['payment_method_id']);
         $snapshot = Money::snapshotFor($paymentMethod);
 
@@ -41,8 +53,19 @@ class DepositController extends Controller
             ]);
         }
 
-        $userTrade = UserTrade::where('user_id', $user->id)->findOrFail($data['user_trade_id']);
-        $proof = $request->file('proof')?->store('deposit-proofs', 'public');
+        $trade = \App\Models\Trade::findOrFail($data['trade_id']);
+        
+        // Create the UserTrade as pending now that proof is submitted
+        $userTrade = UserTrade::create([
+            'user_id' => $user->id,
+            'trade_id' => $trade->id,
+            'category_id' => $trade->category_id,
+            'amount' => $trade->amount,
+            'daily_gain' => $trade->dailyGain(),
+            'status' => 'pending',
+        ]);
+
+        $proof = $request->file('proof')->store('deposit-proofs', 'public');
         $amountUsd = (float) $userTrade->amount;
 
         Deposit::create([
@@ -56,6 +79,12 @@ class DepositController extends Controller
             'proof' => $proof,
             'status' => 'pending',
         ]);
+
+        $adminNotifications->notifyAdmins(
+            'Nouveau Depot en attente',
+            "L'utilisateur {$user->name} a soumis un depot de " . Money::formatUsd($amountUsd) . " pour le trade {$trade->name}. Preuve jointe.",
+            'new_deposit'
+        );
 
         return redirect()->route('client.deposits.index')->with('status', 'Depot envoye.');
     }
