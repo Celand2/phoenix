@@ -75,7 +75,7 @@ class ReferralService
     private function getCommissionPercent(int $level): float
     {
         $percents = config('phenix.referral_percents', [
-            1 => 5.00,
+            1 => 10.00,
             2 => 3.00,
             3 => 1.00,
         ]);

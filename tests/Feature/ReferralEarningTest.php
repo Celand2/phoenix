@@ -68,7 +68,7 @@ class ReferralEarningTest extends TestCase
         $tradeService->activateTrade($deposit);
 
         // 5. Verify Commissions
-        // Level 1: User 3 should get 5% of 100 = 5
+        // Level 1: User 3 should get 10% of 100 = 10
         // Level 2: User 2 should get 3% of 100 = 3
         // Level 3: User 1 should get 1% of 100 = 1
 
@@ -76,7 +76,7 @@ class ReferralEarningTest extends TestCase
         $user2->refresh();
         $user3->refresh();
 
-        $this->assertEquals(5.00, $user3->balance_gains, 'User 3 (Level 1) should have 5 USD commission');
+        $this->assertEquals(10.00, $user3->balance_gains, 'User 3 (Level 1) should have 10 USD commission');
         $this->assertEquals(3.00, $user2->balance_gains, 'User 2 (Level 2) should have 3 USD commission');
         $this->assertEquals(1.00, $user1->balance_gains, 'User 1 (Level 3) should have 1 USD commission');
 
@@ -84,7 +84,7 @@ class ReferralEarningTest extends TestCase
             'referrer_id' => $user3->id,
             'referred_id' => $user4->id,
             'level' => 1,
-            'commission_amount' => 5.00,
+            'commission_amount' => 10.00,
             'status' => 'paid',
         ]);
 

@@ -12,6 +12,7 @@
             <thead class="bg-gold-50 text-xs font-bold uppercase tracking-wider text-ash-500">
                 <tr>
                     <th class="p-4">Client</th>
+                    <th class="p-4">Coordonnees</th>
                     <th class="p-4">Méthode</th>
                     <th class="p-4">Demande</th>
                     <th class="p-4">Frais</th>
@@ -26,6 +27,10 @@
                     <td class="p-4">
                         <p class="font-bold text-ash-900">{{ $withdrawal->user?->name }}</p>
                         <p class="text-[10px] text-ash-400">{{ $withdrawal->user?->email }}</p>
+                    </td>
+                    <td class="p-4">
+                        <p class="font-bold text-ash-900">{{ $withdrawal->account_name }}</p>
+                        <p class="text-xs font-medium text-ash-500">{{ $withdrawal->account_number }}</p>
                     </td>
                     <td class="p-4 text-ash-500 font-medium">{{ $withdrawal->paymentMethod?->name }}</td>
                     <td class="p-4 font-medium text-ash-700">
@@ -79,7 +84,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="p-12 text-center text-ash-400">
+                    <td colspan="8" class="p-12 text-center text-ash-400">
                         Aucune demande de retrait à traiter.
                     </td>
                 </tr>

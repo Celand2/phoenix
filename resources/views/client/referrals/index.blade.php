@@ -15,12 +15,47 @@
     <div class="rounded-2xl border border-gold-100 bg-white p-6 shadow-sm">
         <p class="text-xs font-bold uppercase tracking-widest text-ash-400">Total Commissions</p>
         <p class="mt-2 text-3xl font-black text-gold-600">
-            {{ \App\Support\Money::formatForUser($referrals->sum('commission_amount'), auth()->user()) }}
+            {{ \App\Support\Money::formatForUser($totalCommissions, auth()->user()) }}
         </p>
     </div>
 </div>
 
+<div class="mb-8 overflow-hidden rounded-2xl border border-gold-100 bg-white shadow-sm">
+    <div class="border-b border-gold-100 px-6 py-4">
+        <h2 class="text-lg font-black text-ash-900">Filleuls inscrits</h2>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+            <thead class="bg-gold-50 text-xs font-bold uppercase tracking-wider text-ash-500">
+                <tr>
+                    <th class="p-4">Filleul</th>
+                    <th class="p-4">Email</th>
+                    <th class="p-4 text-right">Inscription</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gold-100 text-ash-900">
+                @forelse($referredUsers as $referredUser)
+                <tr class="transition-colors hover:bg-gold-50/50">
+                    <td class="p-4 font-medium">{{ $referredUser->name }}</td>
+                    <td class="p-4 text-ash-500">{{ $referredUser->email }}</td>
+                    <td class="p-4 text-right text-ash-500">{{ $referredUser->created_at?->format('d/m/Y H:i') }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="3" class="p-12 text-center text-ash-400">
+                        Aucun filleul inscrit pour le moment.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <div class="overflow-hidden rounded-2xl border border-gold-100 bg-white shadow-sm">
+    <div class="border-b border-gold-100 px-6 py-4">
+        <h2 class="text-lg font-black text-ash-900">Commissions de parrainage</h2>
+    </div>
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
             <thead class="bg-gold-50 text-xs font-bold uppercase tracking-wider text-ash-500">
