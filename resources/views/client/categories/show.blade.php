@@ -73,7 +73,7 @@
                 {{-- lueur basse --}}
                 <span class="pointer-events-none absolute inset-x-[20%] bottom-0 h-1/3 rounded-full bg-orange-400/30 blur-xl"></span>
 
-                <span class="relative flex items-center justify-center gap-2">
+                <span class="relative flex items-center justify-center gap-2 ">
                     <span class="text-base drop-shadow-[0_0_4px_rgba(255,200,150,0.6)]">⚡</span>
                     <span class="text-lg font-black tracking-wide text-white drop-shadow-sm sm:text-xl">Acheter</span>
                 </span>
