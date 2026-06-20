@@ -14,7 +14,7 @@ class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
-    private const WELCOME_NOTIFICATION_TITLE = 'Bienvenue chez phenix Traders';
+    private const WELCOME_NOTIFICATION_TITLE = 'Bienvenue chez Phoenix Traders';
     private const WELCOME_NOTIFICATION_BODY = 'Votre compte a été créé avec succès. Bienvenue dans notre communauté de trading !';
     private const WELCOME_NOTIFICATION_TYPE = 'welcome';
 
@@ -64,6 +64,15 @@ class CreateNewUser implements CreatesNewUsers
             self::WELCOME_NOTIFICATION_BODY,
             self::WELCOME_NOTIFICATION_TYPE
         );
+
+        if ($referrer) {
+            app(\App\Services\NotificationService::class)->send(
+                $referrer,
+                'Nouveau Filleul',
+                "{$user->name} vient de s'inscrire avec votre code de parrainage.",
+                'new_referral'
+            );
+        }
 
         app(\App\Services\AdminNotificationService::class)->notifyAdmins(
             'Nouvel Utilisateur',
