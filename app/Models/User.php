@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\PaymentMethod;
+use App\Support\Money;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
@@ -76,6 +78,51 @@ class User extends Authenticatable
     public function preferredPaymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class, 'preferred_payment_method_id');
+    }
+
+    protected static function booted()
+    {
+        static::saving(function (self $user) {
+            if (! $user->isDirty('preferred_payment_method_id')) {
+                return;
+            }
+
+            if (! $user->preferred_payment_method_id) {
+                return;
+            }
+
+            $paymentMethod = PaymentMethod::with('exchangeRate')->find($user->preferred_payment_method_id);
+
+            if (! $paymentMethod) {
+                return;
+            }
+
+            $snapshot = Money::snapshotFor($paymentMethod);
+            $user->preferred_currency = $snapshot['currency'];
+            $user->preferred_rate = $snapshot['rate'];
+        });
+    }
+
+    public function syncPreferredCurrencyFromPaymentMethod(): void
+    {
+        if (! $this->preferred_payment_method_id) {
+            return;
+        }
+
+        $paymentMethod = PaymentMethod::with('exchangeRate')->find($this->preferred_payment_method_id);
+
+        if (! $paymentMethod) {
+            return;
+        }
+
+        $snapshot = Money::snapshotFor($paymentMethod);
+
+        if ($this->preferred_currency !== $snapshot['currency'] || (float) $this->preferred_rate !== $snapshot['rate']) {
+            $this->update([
+                'preferred_currency' => $snapshot['currency'],
+                'preferred_rate' => $snapshot['rate'],
+            ]);
+        }
     }
 
     // Claims

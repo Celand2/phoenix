@@ -83,10 +83,25 @@
             </button>
         </form>
 
-        <!-- Informations Préférences -->
-        <div class="rounded-2xl border border-gold-100 bg-gold-50 p-8 shadow-inner">
+        <!-- Préférences monétaires -->
+        <form method="POST" action="{{ route('admin.users.preferences', $user) }}" class="rounded-2xl border border-gold-100 bg-gold-50 p-8 shadow-sm">
+            @csrf
+            @method('PATCH')
             <h2 class="text-lg font-black text-ash-900 mb-4">Préférences monétaires</h2>
             <div class="space-y-4">
+                <div class="grid gap-2">
+                    <label class="text-sm font-bold uppercase tracking-wider text-ash-500">Mode de paiement préféré</label>
+                    <select class="rounded-xl border border-ash-200 bg-white px-4 py-3 text-ash-900 focus:border-crimson-400 focus:ring-crimson-400" name="payment_method_id" required>
+                        @foreach($paymentMethods as $method)
+                            @php $snapshot = \App\Support\Money::snapshotFor($method); @endphp
+                            <option value="{{ $method->id }}" @selected($method->id === $user->preferred_payment_method_id)>
+                                {{ $method->name }} ({{ $snapshot['currency'] }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-ash-500">La devise et le taux sont définis automatiquement en fonction du moyen de paiement choisi.</p>
+                </div>
+
                 <div class="flex items-center justify-between border-b border-gold-100 pb-2">
                     <span class="text-sm font-medium text-ash-500 uppercase tracking-wider">Devise locale</span>
                     <span class="font-black text-gold-800">{{ $user->preferred_currency ?? 'USD (Défaut)' }}</span>
@@ -101,8 +116,11 @@
                     <span class="text-sm font-medium text-ash-500 uppercase tracking-wider">Inscrit le</span>
                     <span class="font-bold text-ash-700">{{ $user->created_at?->format('d/m/Y') }}</span>
                 </div>
+                <button class="w-full rounded-xl bg-crimson-400 px-6 py-4 font-black text-white transition-all hover:bg-crimson-600 hover:shadow-lg active:scale-95">
+                    Mettre à jour la devise préférée
+                </button>
             </div>
-        </div>
+        </form>
 
         <!-- Suppression du Compte -->
         <div class="rounded-2xl border border-crimson-100 bg-crimson-50 p-8 shadow-sm">

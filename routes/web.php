@@ -39,6 +39,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/users', [Admin\UserController::class, 'index'])->name('users.index');
         Route::get('/users/{user}', [Admin\UserController::class, 'show'])->name('users.show');
         Route::patch('/users/{user}/balance', [Admin\UserController::class, 'updateBalance'])->name('users.balance');
+        Route::patch('/users/{user}/preferences', [Admin\UserController::class, 'updatePreferences'])->name('users.preferences');
         Route::patch('/users/{user}/status', [Admin\UserController::class, 'updateStatus'])->name('users.status');
         Route::patch('/users/{user}/password', [Admin\UserController::class, 'updatePassword'])->name('users.password');
         Route::delete('/users/{user}', [Admin\UserController::class, 'destroy'])->name('users.destroy');

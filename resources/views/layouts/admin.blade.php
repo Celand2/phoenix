@@ -127,5 +127,25 @@
             </section>
         </main>
     </div>
+    <script>
+        function copyToClipboard(text, button) {
+            if (!navigator.clipboard) {
+                alert('Votre navigateur ne supporte pas le presse-papiers.');
+                return;
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                const original = button.innerText;
+                button.innerText = 'Copié';
+                button.disabled = true;
+                setTimeout(() => {
+                    button.innerText = original;
+                    button.disabled = false;
+                }, 1500);
+            }).catch(() => {
+                alert('Impossible de copier dans le presse-papiers.');
+            });
+        }
+    </script>
 </body>
 </html>

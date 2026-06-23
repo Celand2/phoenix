@@ -1,9 +1,14 @@
 @extends('layouts.admin')
 @section('title', 'Retraits')
 @section('content')
-<div class="mb-6">
-    <h1 class="text-2xl font-black text-ash-900">Validation des Retraits</h1>
-    <p class="text-ash-500">Gérez les demandes de retrait des clients et appliquez les frais correspondants.</p>
+<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+        <h1 class="text-2xl font-black text-ash-900">Validation des Retraits</h1>
+        <p class="text-ash-500">Gérez les demandes de retrait des clients et appliquez les frais correspondants.</p>
+    </div>
+    <button type="button" @if(empty($pendingWithdrawalsCopy)) disabled @endif data-copy-text='{!! json_encode($pendingWithdrawalsCopy ?: "Aucun retrait en attente.") !!}' onclick="copyToClipboard(JSON.parse(this.dataset.copyText), this)" class="rounded-2xl bg-gold-100 px-4 py-3 text-sm font-black uppercase tracking-widest text-gold-900 transition hover:bg-gold-200 disabled:cursor-not-allowed disabled:opacity-60">
+        Copier la liste des retraits en attente
+    </button>
 </div>
 
 <div class="overflow-hidden rounded-2xl border border-gold-100 bg-white shadow-sm">
@@ -55,6 +60,13 @@
                         </span>
                     </td>
                     <td class="p-4">
+                    @php
+                        $withdrawalCopy = "Retrait #{$withdrawal->id}\nUtilisateur: {$withdrawal->user?->name ?? 'N/A'} ({$withdrawal->user?->email ?? 'N/A'})\nPortefeuille: {$withdrawal->account_number}\nMéthode: {$withdrawal->paymentMethod?->name ?? 'N/A'}\nMontant demandé: " . \App\Support\Money::formatSnapshot($withdrawal->amount_requested, $withdrawal->amount_requested_local, $withdrawal->currency_local) . "\nFrais: " . \App\Support\Money::formatSnapshot($withdrawal->fee, $withdrawal->fee_local, $withdrawal->currency_local) . "\nNet reçu: " . \App\Support\Money::formatSnapshot($withdrawal->amount_received, $withdrawal->amount_received_local, $withdrawal->currency_local) . "\nStatut: {$withdrawal->status}";
+                    @endphp
+                    <div class="flex flex-col gap-2 items-end">
+                        <button type="button" data-copy-text='{!! json_encode($withdrawalCopy) !!}' onclick="copyToClipboard(JSON.parse(this.dataset.copyText), this)" class="rounded-lg bg-gold-100 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-gold-900 transition-all hover:bg-gold-200 active:scale-95">
+                            Copier details
+                        </button>
                         <div class="flex items-center justify-end gap-2">
                             @if($withdrawal->status==='pending')
                                 <form method="POST" action="{{ route('admin.withdrawals.approve', $withdrawal) }}">
@@ -80,7 +92,8 @@
                                 </button>
                             </form>
                         </div>
-                    </td>
+                    </div>
+                </td>
                 </tr>
                 @empty
                 <tr>
