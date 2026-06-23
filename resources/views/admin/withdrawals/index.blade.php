@@ -61,7 +61,21 @@
                     </td>
                     <td class="p-4">
                     @php
-                        $withdrawalCopy = "Retrait #{$withdrawal->id}\nUtilisateur: {$withdrawal->user?->name ?? 'N/A'} ({$withdrawal->user?->email ?? 'N/A'})\nPortefeuille: {$withdrawal->account_number}\nMéthode: {$withdrawal->paymentMethod?->name ?? 'N/A'}\nMontant demandé: " . \App\Support\Money::formatSnapshot($withdrawal->amount_requested, $withdrawal->amount_requested_local, $withdrawal->currency_local) . "\nFrais: " . \App\Support\Money::formatSnapshot($withdrawal->fee, $withdrawal->fee_local, $withdrawal->currency_local) . "\nNet reçu: " . \App\Support\Money::formatSnapshot($withdrawal->amount_received, $withdrawal->amount_received_local, $withdrawal->currency_local) . "\nStatut: {$withdrawal->status}";
+                        $userName = $withdrawal->user ? $withdrawal->user->name : 'N/A';
+                        $userEmail = $withdrawal->user ? $withdrawal->user->email : 'N/A';
+                        $methodName = $withdrawal->paymentMethod ? $withdrawal->paymentMethod->name : 'N/A';
+                        $amountRequested = \App\Support\Money::formatSnapshot($withdrawal->amount_requested, $withdrawal->amount_requested_local, $withdrawal->currency_local);
+                        $fee = \App\Support\Money::formatSnapshot($withdrawal->fee, $withdrawal->fee_local, $withdrawal->currency_local);
+                        $amountReceived = \App\Support\Money::formatSnapshot($withdrawal->amount_received, $withdrawal->amount_received_local, $withdrawal->currency_local);
+
+                        $withdrawalCopy = 'Retrait #' . $withdrawal->id . "\n" .
+                            'Utilisateur: ' . $userName . ' (' . $userEmail . ")\n" .
+                            'Portefeuille: ' . ($withdrawal->account_number ?? 'N/A') . "\n" .
+                            'Méthode: ' . $methodName . "\n" .
+                            'Montant demandé: ' . $amountRequested . "\n" .
+                            'Frais: ' . $fee . "\n" .
+                            'Net reçu: ' . $amountReceived . "\n" .
+                            'Statut: ' . ($withdrawal->status ?? 'N/A');
                     @endphp
                     <div class="flex flex-col gap-2 items-end">
                         <button type="button" data-copy-text='{!! json_encode($withdrawalCopy) !!}' onclick="copyToClipboard(JSON.parse(this.dataset.copyText), this)" class="rounded-lg bg-gold-100 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-gold-900 transition-all hover:bg-gold-200 active:scale-95">

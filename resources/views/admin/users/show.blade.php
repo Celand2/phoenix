@@ -117,7 +117,7 @@
                     <span class="font-bold text-ash-700">{{ $user->created_at?->format('d/m/Y') }}</span>
                 </div>
                 <button class="w-full rounded-xl bg-crimson-400 px-6 py-4 font-black text-white transition-all hover:bg-crimson-600 hover:shadow-lg active:scale-95">
-                    Mettre à jour la devise préférée
+                    Mettre à jour 
                 </button>
             </div>
         </form>
