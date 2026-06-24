@@ -7,7 +7,7 @@
         <p class="text-ash-500">Gérez les demandes de retrait des clients et appliquez les frais correspondants.</p>
     </div>
     <button type="button" @if(empty($pendingWithdrawalsCopy)) disabled @endif data-copy-text='{!! json_encode($pendingWithdrawalsCopy ?: "Aucun retrait en attente.") !!}' onclick="copyToClipboard(JSON.parse(this.dataset.copyText), this)" class="rounded-2xl bg-gold-100 px-4 py-3 text-sm font-black uppercase tracking-widest text-gold-900 transition hover:bg-gold-200 disabled:cursor-not-allowed disabled:opacity-60">
-        Copier la liste des retraits en attente
+        Copier la liste
     </button>
 </div>
 
