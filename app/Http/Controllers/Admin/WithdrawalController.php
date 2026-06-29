@@ -53,4 +53,13 @@ class WithdrawalController extends Controller
 
         return back()->with('status', 'Retrait supprime.');
     }
+    public function stats()
+{
+    return response()->json([
+        'total_pending' => Withdrawal::pending()->sum('amount_requested'),
+        'total_approved_today' => Withdrawal::approved()
+            ->whereDate('approved_at', today())
+            ->sum('amount_received'),
+    ]);
+}
 }

@@ -49,6 +49,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/notifications', [Admin\NotificationController::class, 'index'])->name('notifications.index');
         Route::post('/notifications/send', [Admin\NotificationController::class, 'send'])->name('notifications.send');
         Route::delete('/notifications/{notification}', [Admin\NotificationController::class, 'destroy'])->name('notifications.destroy');
+
+        Route::get('/withdrawals/stats', [Admin\WithdrawalController::class, 'stats'])->name('withdrawals.stats');
     });
     // Retirer les routes withdrawals du groupe IsAdmin
 // et les mettre dans un groupe IsSupAdmin séparé

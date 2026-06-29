@@ -25,4 +25,49 @@
         </div>
     @endforeach
 </div>
+{{-- Cartes stats retraits --}}
+<div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div class="rounded-2xl border border-gold-100 bg-white p-6 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-widest text-ash-400">Retraits en attente</p>
+        <p class="mt-3 text-4xl font-black text-crimson-600" id="stat-pending">
+            ${{ number_format($totalPending, 2) }}
+        </p>
+        <div class="mt-4 flex items-center gap-2">
+            <span class="size-2 animate-pulse rounded-full bg-crimson-400"></span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter text-ash-400">Temps réel</span>
+        </div>
+    </div>
+
+    <div class="rounded-2xl border border-gold-100 bg-white p-6 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-widest text-ash-400">Approuvé aujourd'hui</p>
+        <p class="mt-3 text-4xl font-black text-gold-600" id="stat-approved">
+            ${{ number_format($totalApprovedToday, 2) }}
+        </p>
+        <div class="mt-4 flex items-center gap-2">
+            <span class="size-2 animate-pulse rounded-full bg-gold-400"></span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter text-ash-400">Depuis minuit</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function formatUSD(amount) {
+        return '$' + parseFloat(amount).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    function refreshStats() {
+        fetch('{{ route("admin.withdrawals.stats") }}')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('stat-pending').textContent = formatUSD(data.total_pending);
+                document.getElementById('stat-approved').textContent = formatUSD(data.total_approved_today);
+            })
+            .catch(() => {});
+    }
+
+    setInterval(refreshStats, 10000);
+</script>
 @endsection
