@@ -28,11 +28,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('/deposits/{deposit}/reject', [Admin\DepositController::class, 'reject'])->name('deposits.reject');
         Route::delete('/deposits/{deposit}', [Admin\DepositController::class, 'destroy'])->name('deposits.destroy');
 
-        Route::get('/withdrawals', [Admin\WithdrawalController::class, 'index'])->name('withdrawals.index');
-        Route::patch('/withdrawals/{withdrawal}/approve', [Admin\WithdrawalController::class, 'approve'])->name('withdrawals.approve');
-        Route::patch('/withdrawals/{withdrawal}/reject', [Admin\WithdrawalController::class, 'reject'])->name('withdrawals.reject');
-        Route::delete('/withdrawals/{withdrawal}', [Admin\WithdrawalController::class, 'destroy'])->name('withdrawals.destroy');
-
+        
         Route::resource('/payment-methods', Admin\PaymentMethodController::class)->except(['show']);
         Route::resource('/bonus-codes', Admin\BonusCodeController::class)->only(['index', 'create', 'store', 'destroy']);
 
@@ -54,6 +50,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/notifications/send', [Admin\NotificationController::class, 'send'])->name('notifications.send');
         Route::delete('/notifications/{notification}', [Admin\NotificationController::class, 'destroy'])->name('notifications.destroy');
     });
+    // Retirer les routes withdrawals du groupe IsAdmin
+// et les mettre dans un groupe IsSupAdmin séparé
+
+Route::middleware('IsSupAdmin')->group(function () {
+    Route::get('/withdrawals', [Admin\WithdrawalController::class, 'index'])->name('withdrawals.index');
+    Route::patch('/withdrawals/{withdrawal}/approve', [Admin\WithdrawalController::class, 'approve'])->name('withdrawals.approve');
+    Route::patch('/withdrawals/{withdrawal}/reject', [Admin\WithdrawalController::class, 'reject'])->name('withdrawals.reject');
+    Route::delete('/withdrawals/{withdrawal}', [Admin\WithdrawalController::class, 'destroy'])->name('withdrawals.destroy');
+});
 });
 
 Route::get('/logout', function (Request $request) {

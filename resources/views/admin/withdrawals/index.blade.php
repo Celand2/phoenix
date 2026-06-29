@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends(Auth::guard('admin')->user()->role === 'supadmin' ? 'layouts.supadmin' : 'layouts.admin')
 @section('title', 'Retraits')
 @section('content')
 <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

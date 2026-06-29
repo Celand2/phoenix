@@ -20,12 +20,17 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
+       if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
+    $request->session()->regenerate();
 
-            return redirect()->intended('/admin/dashboard');
-        }
+    $role = Auth::guard('admin')->user()->role;
 
+    if ($role === 'supadmin') {
+        return redirect('/admin/withdrawals');
+    }
+
+    return redirect()->intended('/admin/dashboard');
+}
         return back()->withErrors(['email' => 'Identifiants invalides.'])->onlyInput('email');
     }
 
